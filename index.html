@@ -1,11 +1,17 @@
 <!doctype html>
 <html lang="en">
+
 <head>
-  <meta charset="utf-8">
+    <meta charset="utf-8">
 
-  <title>Spelsylt May 2020</title>
+    <title>Spelsylt May 2020</title>
 
-  <script src="phaser.min.js" ></script>
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+
+    <script src="phaser.min.js"></script>
 
 </head>
 
@@ -13,21 +19,20 @@
     <div id="content"></div>
 
     <script>
-        function create()
-        {
+        function create() {
             console.log("create");
             var graphics = this.add.graphics();
 
-            graphics.fillStyle(0x00ff00, 1);
+            graphics.fillStyle(0x429cbd, 1);
             graphics.fillRect(0, 0, 750, 1334);
 
             graphics.fillStyle(0xff0000, 0.5);
-            graphics.fillRect(250, 200, 400, 256);
+            graphics.fillRect(250, 450, 300, 500);
         }
 
         var config = {
             parent: 'content',
-            width: 750,  
+            width: 750,
             height: 1334,
             scale: {
                 mode: Phaser.Scale.FIT,
@@ -43,7 +48,8 @@
 
         console.log(game)
 
-        
+
     </script>
 </body>
+
 </html>
