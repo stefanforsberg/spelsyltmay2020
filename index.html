@@ -5,13 +5,45 @@
 
   <title>Spelsylt May 2020</title>
 
+  <script src="phaser.min.js" ></script>
+
 </head>
 
 <body>
-    <h1>Hello</h1>
+    <div id="content"></div>
 
-    <div style="background-color: #00ff00; width: 600px; height: 1000px">
-        s
-    </div>
+    <script>
+        function create()
+        {
+            console.log("create");
+            var graphics = this.add.graphics();
+
+            graphics.fillStyle(0x00ff00, 1);
+            graphics.fillRect(0, 0, 750, 1334);
+
+            graphics.fillStyle(0xff0000, 0.5);
+            graphics.fillRect(250, 200, 400, 256);
+        }
+
+        var config = {
+            parent: 'content',
+            width: 750,  
+            height: 1334,
+            scale: {
+                mode: Phaser.Scale.FIT,
+                autoCenter: Phaser.Scale.CENTER_BOTH
+            },
+            autoRound: false,
+            scene: {
+                create: create
+            }
+        };
+
+        var game = new Phaser.Game(config);
+
+        console.log(game)
+
+        
+    </script>
 </body>
 </html>
