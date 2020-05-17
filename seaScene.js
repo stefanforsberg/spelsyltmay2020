@@ -21,10 +21,17 @@ class SeaScene extends Phaser.Scene {
 
         this.fish = new Fish(this, 50, 50, 'fish');
 
+        this.input.setDraggable(this.fish);
+
+        this.fish2 = new Fish(this, 600, 0, 'fish');
+
+        this.input.setDraggable(this.fish2);
+
     }
 
     update() {
         this.fish.update();
+        this.fish2.update();
     }
 
 }

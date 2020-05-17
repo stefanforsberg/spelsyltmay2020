@@ -31,12 +31,31 @@ class Fish extends Phaser.GameObjects.Sprite {
 
         this.setInteractive();
 
-        this.on('pointerdown', function (pointer) {
+        // this.on('pointerdown', function (pointer) {
+        //     this.setTint(Math.random() * 0xffffff);
+        // });
+
+        // this.on('pointerout', function (pointer) {
+        //     // this.clearTint();
+        // });
+
+        this.on('dragstart', function (pointer) {
             this.setTint(Math.random() * 0xffffff);
+            // this.setTint(0xff0000);
+
         });
 
-        this.on('pointerout', function (pointer) {
-            // this.clearTint();
+        this.on('drag', function (pointer, dragX, dragY) {
+
+            this.x = dragX;
+            // this.y = dragY;
+
+        });
+
+        this.on('dragend', function (pointer) {
+
+            this.clearTint();
+
         });
         
 
@@ -54,8 +73,6 @@ class Fish extends Phaser.GameObjects.Sprite {
     }
 
     update() {
-
-        console.log("update")
 
         this.y += 3;
 
