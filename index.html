@@ -12,6 +12,8 @@
     <link rel="manifest" href="site.webmanifest">
 
     <script src="phaser.min.js"></script>
+    <script src="seaScene.js"></script>
+    <script src="fish.js"></script>
 
 </head>
 
@@ -21,13 +23,7 @@
     <script>
         function create() {
             console.log("create");
-            var graphics = this.add.graphics();
 
-            graphics.fillStyle(0x429cbd, 1);
-            graphics.fillRect(0, 0, 750, 1334);
-
-            graphics.fillStyle(0xff0000, 0.5);
-            graphics.fillRect(250, 450, 300, 500);
         }
 
         var config = {
@@ -39,14 +35,15 @@
                 autoCenter: Phaser.Scale.CENTER_BOTH
             },
             autoRound: false,
-            scene: {
-                create: create
-            }
+            scene: [
+                SeaScene
+            ]
         };
 
         var game = new Phaser.Game(config);
 
-        console.log(game)
+
+        // var f = new Fish(game)
 
 
     </script>
