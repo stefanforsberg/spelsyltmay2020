@@ -6,6 +6,7 @@ class SeaScene extends Phaser.Scene {
     
     preload() {
         this.load.image('fish', 'assets/fish.png');
+        this.load.image('player', 'assets/player.png');
     }
 
     create() {
@@ -16,22 +17,30 @@ class SeaScene extends Phaser.Scene {
         graphics.fillStyle(0x429cbd, 1);
         graphics.fillRect(0, 0, 750, 1334);
 
-        graphics.fillStyle(0xff0000, 0.5);
-        graphics.fillRect(250, 450, 300, 500);
+        this.player = new Player(this, 400, 800, 'player');
 
         this.fish = new Fish(this, 50, 50, 'fish');
 
-        this.input.setDraggable(this.fish);
-
         this.fish2 = new Fish(this, 600, 0, 'fish');
 
-        this.input.setDraggable(this.fish2);
+        this.fishEaten = 0;
+
+        this.events.on("EatFish", () => { this.fishEaten = this.fishEaten + 1;}, this);
+
+        this.fishEatenText = this.add.text(30, 30, '0').setFontFamily('Arial').setFontSize(48).setColor('#ffff00');
 
     }
 
     update() {
-        this.fish.update();
-        this.fish2.update();
+
+        this.fishEatenText.setText(this.fishEaten)
+        
+        var playerBounds = [this.player.getBounds()];        
+
+        this.fish.update(playerBounds);
+        this.fish2.update(playerBounds);
+
+
     }
 
 }

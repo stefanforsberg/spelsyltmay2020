@@ -4,6 +4,10 @@ class Fish extends Phaser.GameObjects.Sprite {
 
         super(scene, x, y, key);
 
+        this.scene = scene;
+
+        console.log()
+
         // var emitter = scene.add.particles('fog').createEmitter({
         //     speed: 10,
         //     lifespan: {
@@ -31,6 +35,8 @@ class Fish extends Phaser.GameObjects.Sprite {
 
         this.setInteractive();
 
+        this.canMove = true;
+
         // this.on('pointerdown', function (pointer) {
         //     this.setTint(Math.random() * 0xffffff);
         // });
@@ -39,7 +45,10 @@ class Fish extends Phaser.GameObjects.Sprite {
         //     // this.clearTint();
         // });
 
+        scene.input.setDraggable(this);
+
         this.on('dragstart', function (pointer) {
+            this.canMove = false;
             this.setTint(Math.random() * 0xffffff);
             // this.setTint(0xff0000);
 
@@ -48,16 +57,18 @@ class Fish extends Phaser.GameObjects.Sprite {
         this.on('drag', function (pointer, dragX, dragY) {
 
             this.x = dragX;
-            // this.y = dragY;
+            this.y = dragY;
 
         });
 
         this.on('dragend', function (pointer) {
-
+            this.canMove = true;
             this.clearTint();
 
         });
         
+
+        this.respawn();
 
         scene.add.existing(this);
 
@@ -72,13 +83,31 @@ class Fish extends Phaser.GameObjects.Sprite {
 
     }
 
-    update() {
+    respawn() {
+        this.x = Phaser.Math.Between(20, 700);
+        this.y = Phaser.Math.Between(-90, -30);
+    }
 
-        this.y += 3;
+    update(playerBounds) {
 
-        if(this.y > 1400) {
-            this.y = -100
+        if(this.canMove) {
+            this.y += 3;
+
+            if(this.y > 1400) {
+                this.respawn();
+            }
+
+            playerBounds.forEach(pb => {
+                if(Phaser.Geom.Intersects.RectangleToRectangle(this.getBounds(), pb)) {
+                    this.scene.events.emit("EatFish");
+                    this.respawn();
+                }
+            });
         }
+
+
+        
+        
 
         // // Horizontal movement
         // if (this.scene.cursors.left.isDown)
