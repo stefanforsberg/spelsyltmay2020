@@ -17,7 +17,7 @@ class SeaScene extends Phaser.Scene {
         graphics.fillStyle(0x429cbd, 1);
         graphics.fillRect(0, 0, 750, 1334);
 
-        this.player = new Player(this, 400, 800, 'player');
+        this.player = new Player(this);
 
         this.fish = new Fish(this, 50, 50, 'fish');
 
@@ -29,13 +29,20 @@ class SeaScene extends Phaser.Scene {
 
         this.fishEatenText = this.add.text(30, 30, '0').setFontFamily('Arial').setFontSize(48).setColor('#ffff00');
 
+
+    
+        
+    
+
     }
 
     update() {
 
+        this.player.update();
+
         this.fishEatenText.setText(this.fishEaten)
         
-        var playerBounds = [this.player.getBounds()];        
+        var playerBounds = [this.player];        
 
         this.fish.update(playerBounds);
         this.fish2.update(playerBounds);

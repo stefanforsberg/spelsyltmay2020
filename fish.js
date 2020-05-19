@@ -88,7 +88,7 @@ class Fish extends Phaser.GameObjects.Sprite {
         this.y = Phaser.Math.Between(-90, -30);
     }
 
-    update(playerBounds) {
+    update(players) {
 
         if(this.canMove) {
             this.y += 3;
@@ -97,8 +97,9 @@ class Fish extends Phaser.GameObjects.Sprite {
                 this.respawn();
             }
 
-            playerBounds.forEach(pb => {
-                if(Phaser.Geom.Intersects.RectangleToRectangle(this.getBounds(), pb)) {
+            players.forEach(pb => {
+                if(Phaser.Geom.Intersects.RectangleToRectangle(this.getBounds(), pb.getBounds())) {
+                    pb.eat();
                     this.scene.events.emit("EatFish");
                     this.respawn();
                 }
