@@ -1,12 +1,8 @@
-class Fish extends Phaser.GameObjects.Sprite {
+class Wood extends Phaser.GameObjects.Sprite {
 
     constructor(scene, x, y, key) {
 
         super(scene, x, y, key);
-
-        this.scene = scene;
-
-        console.log()
 
         this.setInteractive();
 
@@ -44,22 +40,21 @@ class Fish extends Phaser.GameObjects.Sprite {
         this.y = Phaser.Math.Between(0, 30);
     }
 
-    update(players) {
+    update(player) {
 
         if(this.canMove) {
-            this.y += 3;
+            this.y += 1;
 
             if(this.y > 1400) {
                 this.respawn();
             }
 
-            players.forEach(pb => {
-                if(Phaser.Geom.Intersects.RectangleToRectangle(this.getBounds(), pb.getBounds())) {
-                    pb.eat();
-                    this.scene.events.emit("EatFish");
-                    this.respawn();
-                }
-            });
+            if(Phaser.Geom.Intersects.RectangleToRectangle(this.getBounds(), player.getBounds())) {
+                console.log(player)
+                player.fetchWood();
+                this.scene.events.emit("Wood");
+                this.respawn();
+            }
         }
 
 

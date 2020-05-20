@@ -6,6 +6,7 @@ class SeaScene extends Phaser.Scene {
     
     preload() {
         this.load.image('fish', 'assets/fish.png');
+        this.load.image('wood', 'assets/wood.png');
         this.load.image('player', 'assets/player.png');
     }
 
@@ -22,6 +23,8 @@ class SeaScene extends Phaser.Scene {
         this.fish = new Fish(this, 50, 50, 'fish');
 
         this.fish2 = new Fish(this, 600, 0, 'fish');
+
+        this.wood = new Wood(this, 600, 0, 'wood');
 
         this.fishEaten = 0;
 
@@ -46,6 +49,8 @@ class SeaScene extends Phaser.Scene {
 
         this.fish.update(playerBounds);
         this.fish2.update(playerBounds);
+
+        this.wood.update(this.player);
 
 
     }
