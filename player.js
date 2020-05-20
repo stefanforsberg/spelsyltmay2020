@@ -8,10 +8,16 @@ class Player extends Phaser.GameObjects.Container {
         this.player = this.scene.add.image(400, 800, 'player');
 
         this.playerLife = this.scene.add.graphics();
+
+        this.raftLife = 180;
+        this.raftLifeGraphics = this.scene.add.graphics();
         
         this.life = 0;
 
-        this.wood = 0;
+        this.add(this.player);
+        this.add(this.playerLife);
+
+        scene.add.existing(this);
     }
 
     getBounds() {
@@ -36,6 +42,10 @@ class Player extends Phaser.GameObjects.Container {
         if(this.life < 180) {
             this.life = this.life + 0.3;
         }
+
+        if(this.raftLife > 0) {
+            this.raftLife -= 0.05;
+        }
         
 
         this.playerLife.clear();
@@ -45,6 +55,17 @@ class Player extends Phaser.GameObjects.Container {
         this.playerLife.arc(400, 800, 40, Phaser.Math.DegToRad(180), Phaser.Math.DegToRad(360-this.life), false, 0.02);
         this.playerLife.strokePath();
         this.playerLife.closePath();
+
+        this.updateRaft();
+
+
+    }
+
+    updateRaft() {
+        this.raftLifeGraphics.clear();
+
+        this.raftLifeGraphics.fillStyle(0x0000ff, 1);
+        this.raftLifeGraphics.fillRect(310, 930, this.raftLife, 20);
     }
 }
 

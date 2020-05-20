@@ -52,7 +52,7 @@ class Wood extends Phaser.GameObjects.Sprite {
             if(Phaser.Geom.Intersects.RectangleToRectangle(this.getBounds(), player.getBounds())) {
                 console.log(player)
                 player.fetchWood();
-                this.scene.events.emit("Wood");
+                this.scene.events.emit("FetchWood");
                 this.respawn();
             }
         }
