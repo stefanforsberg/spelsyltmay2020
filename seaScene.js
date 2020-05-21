@@ -9,7 +9,9 @@ class SeaScene extends Phaser.Scene {
         this.load.image('fish', 'assets/fish.png');
         this.load.image('wood', 'assets/wood.png');
         this.load.image('repairRaft', 'assets/repairRaft.png');
+        this.load.image('addRaft', 'assets/addRaft.png');
         this.load.image('player', 'assets/player.png');
+        this.load.image('childRaft', 'assets/childRaft.png');
     }
 
     create() {
@@ -17,24 +19,6 @@ class SeaScene extends Phaser.Scene {
 
         this.bg1 = this.add.sprite(400,700,'bg');
         this.bg2 = this.add.sprite(400,700-1400,'bg');
-
-        // this.tweens.add({
-        //     targets: bg,
-        //     x: 440,
-        //     ease: 'Sine.InOut',
-        //     duration: 10000,
-        //     yoyo: true,
-        //     repeat: -1
-        // });
-
-        // this.tweens.add({
-        //     targets: bg,
-        //     angle: 5,
-        //     ease: 'Sine.InOut',
-        //     duration: 5000,
-        //     yoyo: true,
-        //     repeat: -1
-        // });
 
         this.tweens.add({
             targets: [ this.bg1, this.bg2 ],
@@ -46,14 +30,9 @@ class SeaScene extends Phaser.Scene {
             repeat: -1
         });
 
-        // var graphics = this.add.graphics();
-
-        // graphics.fillStyle(0x429cbd, 1);
-        // graphics.fillRect(0, 0, 750, 1334);
+        this.childrenRafts = []
 
         this.player = new Player(this);
-
-        
 
         this.fish = new Fish(this, 50, 50, 'fish');
 
@@ -69,10 +48,7 @@ class SeaScene extends Phaser.Scene {
 
         this.fishEatenText = this.add.text(30, 30, '0').setFontFamily('Arial').setFontSize(48).setColor('#ffff00');
 
-
-    
-        
-    
+        this.events.on("AddRaft", this.addRaft, this);
 
     }
 
@@ -106,7 +82,23 @@ class SeaScene extends Phaser.Scene {
 
         this.wood.update(this.player);
 
+        this.childrenRafts.forEach(r => r.update())
 
+        this.crafting.update();
+
+    }
+
+    addRaft() {
+        switch(this.childrenRafts.length) {
+            case 0:
+                var childrenRaft = new ChildRaft(this, 310, 1150, 1)
+                this.childrenRafts.push(childrenRaft);
+                break;
+            case 1:
+                var childrenRaft = new ChildRaft(this, 490, 1150, 1)
+                this.childrenRafts.push(childrenRaft);
+                break;
+        }
     }
 
 }

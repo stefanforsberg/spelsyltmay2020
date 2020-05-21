@@ -3,6 +3,8 @@ class Crafting extends Phaser.GameObjects.Container {
 
         super(scene, 0, scene.cameras.main.height-80);
 
+        this.scene = scene;
+
         this.name = "Crafting"
 
         var background = scene.add.graphics();
@@ -13,18 +15,17 @@ class Crafting extends Phaser.GameObjects.Container {
         this.woodText = scene.add.text(10, 10, '0').setFontFamily('Arial').setFontSize(48).setColor('#ffff00');
 
         var repairPlayerRaft = scene.add.sprite(130, 40, 'repairRaft');
-
         repairPlayerRaft.setInteractive();
+        repairPlayerRaft.on('pointerdown', this.repairRaft, this);
 
-        repairPlayerRaft.on('pointerdown', function (pointer) {
-            this.setTint(0xff0000);
-    
-        });
+        var addRaft = scene.add.sprite(230, 40, 'addRaft');
+        addRaft.setInteractive();
+        addRaft.on('pointerdown', this.addRaft, this);
 
         this.add(background);
         this.add(repairPlayerRaft);
+        this.add(addRaft);
         this.add(this.woodText);
-
 
         scene.add.existing(this);
 
@@ -33,14 +34,35 @@ class Crafting extends Phaser.GameObjects.Container {
         scene.events.on("FetchWood", this.fetchWood, this);
     }
 
+    addRaft() {
+        console.log("add: " + this.wood)
+
+        this.scene.events.emit("AddRaft");
+
+        // if(this.wood >=20) {
+        //     // console.log("repair with woof")
+        //     // this.wood-=20;
+        //     // this.scene.events.emit("RepairRaft");
+        // }
+    }
+
+    repairRaft() {
+        console.log("repair: " + this.wood)
+        if(this.wood >=20) {
+            console.log("repair with woof")
+            this.wood-=20;
+            this.scene.events.emit("RepairRaft");
+        }
+    }
+
     fetchWood() {
         this.wood+=20;
-        this.woodText.setText(this.wood);
+        
 
     }
 
     update() {
-
+        this.woodText.setText(this.wood);
     }
 
     

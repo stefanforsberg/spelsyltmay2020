@@ -50,48 +50,10 @@ class Wood extends Phaser.GameObjects.Sprite {
             }
 
             if(Phaser.Geom.Intersects.RectangleToRectangle(this.getBounds(), player.getBounds())) {
-                console.log(player)
                 player.fetchWood();
                 this.scene.events.emit("FetchWood");
                 this.respawn();
             }
         }
-
-
-        
-        
-
-        // // Horizontal movement
-        // if (this.scene.cursors.left.isDown)
-        // {
-        //     this.flipX = true;
-        //     this.body.setVelocityX(-80);
-        // }
-        // else if (this.scene.cursors.right.isDown)
-        // {
-        //     this.flipX = false;
-        //     this.body.setVelocityX(80);
-        // } else {
-        //     this.body.setVelocityX(0);
-        // }
-        // // Vertical movement
-        // if (this.scene.cursors.up.isDown)
-        // {
-        //     this.flipY = false;
-        //     this.body.setVelocityY(-80);
-        // }
-        // else if (this.scene.cursors.down.isDown)
-        // {
-        //     this.flipY = true;
-        //     this.body.setVelocityY(80);
-        // }  
-
-        // if (this.scene.cursors.left.isDown || this.scene.cursors.right.isDown) {
-        //     this.anims.play('vertical', true);
-        // } else if (this.scene.cursors.up.isDown || this.scene.cursors.down.isDown) {
-        //     this.anims.play('horisontal', true);
-        // } else {
-        //     this.anims.stop();
-        // }
     }   
 }
