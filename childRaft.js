@@ -3,15 +3,24 @@ class ChildRaft extends Phaser.GameObjects.Container {
 
         super(scene, x, y);
 
+        this.hasChild = false;
+
         this.name = "ChildRaft" + i;
 
         this.raft = this.scene.add.image(0, 0, 'childRaft');
 
         this.raftLife = 100;
         this.raftLifeGraphics = this.scene.add.graphics();
+
+        this.childLife = 0;
+        this.childLifeGraphics = this.scene.add.graphics();
+
+        
+        
         
         this.add(this.raft);
         this.add(this.raftLifeGraphics);
+        this.add(this.childLifeGraphics);
 
         scene.add.existing(this);
 
@@ -29,9 +38,25 @@ class ChildRaft extends Phaser.GameObjects.Container {
         // scene.events.on("RepairRaft", this.repairRaft, this);
     }
 
-    // getBounds() {
-    //     return this.player.getBounds()
-    // }
+    eat() {
+        this.childLife -= 40;
+
+        if(this.childLife < 0) {
+            this.childLife = 0;
+        }
+    }
+
+    fetchWood() {
+        this.raftLife += 20;
+
+        if(this.raftLife > 100) {
+            this.raftLife = 100;
+        }
+    }
+
+    getBounds() {
+        return this.raft.getBounds()
+    }
 
     // eat() {
     //     console.log("eat")
@@ -55,34 +80,54 @@ class ChildRaft extends Phaser.GameObjects.Container {
     //     }
     // }
 
-    update() {
-        // if(this.life < 180) {
-        //     this.life = this.life + 0.05;
-        // }
+    update(children) {
+
+        this.updateChild(children);
+
+        
+        this.updateRaft();
+    }
+
+    updateChild(children) {
+        if(this.hasChild) {
+            if(this.childLife < 180) {
+                this.childLife = this.childLife + 0.05;
+            }
+
+            this.childLifeGraphics.clear();
+
+            this.childLifeGraphics.lineStyle(10, 0xffffff);
+            this.childLifeGraphics.beginPath();
+            this.childLifeGraphics.arc(0, -5, 30, Phaser.Math.DegToRad(180), Phaser.Math.DegToRad(360-this.childLife), false, 0.02);
+            this.childLifeGraphics.strokePath();
+            this.childLifeGraphics.closePath();
+        } else {
+            children.filter(c => c.canBePlacedOnRaft()).forEach(child => {
+                if(Phaser.Geom.Intersects.RectangleToRectangle(this.getBounds(), child.getBounds())) {
+                    child.destroy();
+                    this.addChildToRaft();
+                }
+            });
+        }
+    }
+
+    updateRaft() {
 
         if(this.raftLife > 0) {
             this.raftLife -= 0.05;
         }
         
-
-        // this.playerLife.clear();
-
-        // this.playerLife.lineStyle(10, 0xffffff);
-        // this.playerLife.beginPath();
-        // this.playerLife.arc(400, 800, 40, Phaser.Math.DegToRad(180), Phaser.Math.DegToRad(360-this.life), false, 0.02);
-        // this.playerLife.strokePath();
-        // this.playerLife.closePath();
-
-        this.updateRaft();
-
-
-    }
-
-    updateRaft() {
         this.raftLifeGraphics.clear();
 
         this.raftLifeGraphics.fillStyle(0x0000ff, 1);
         this.raftLifeGraphics.fillRect(-50, 50, this.raftLife, 10);
+
+
+    }
+
+    addChildToRaft() {
+        this.hasChild = true;
+        this.raft.setTexture('childRaftWithChild')
     }
 }
 

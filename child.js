@@ -1,4 +1,4 @@
-class Wood extends Phaser.GameObjects.Sprite {
+class Child extends Phaser.GameObjects.Sprite {
 
     constructor(scene, x, y, key) {
 
@@ -35,30 +35,19 @@ class Wood extends Phaser.GameObjects.Sprite {
         scene.add.existing(this);
     }
 
+    canBePlacedOnRaft() {
+        return this.canMove;
+    }
+
     respawn() {
         this.x = Phaser.Math.Between(20, 700);
         this.y = Phaser.Math.Between(0, 30);
     }
 
-    update(players) {
+    update(player) {
 
         if(this.canMove) {
             this.y += 1;
-
-            if(this.y > 1400) {
-                this.respawn();
-            }
-            players.forEach(pb => {
-                if(Phaser.Geom.Intersects.RectangleToRectangle(this.getBounds(), pb.getBounds())) {
-                    if(Phaser.Geom.Intersects.RectangleToRectangle(this.getBounds(), pb.getBounds())) {
-                        pb.fetchWood();
-                        this.scene.events.emit("FetchWood");
-                        this.respawn();
-                    }
-                }
-            });
-
-            
         }
     }   
 }

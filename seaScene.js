@@ -12,6 +12,8 @@ class SeaScene extends Phaser.Scene {
         this.load.image('addRaft', 'assets/addRaft.png');
         this.load.image('player', 'assets/player.png');
         this.load.image('childRaft', 'assets/childRaft.png');
+        this.load.image('childRaftWithChild', 'assets/childRaftWithChild.png');
+        this.load.image('child', 'assets/child.png');
     }
 
     create() {
@@ -39,6 +41,12 @@ class SeaScene extends Phaser.Scene {
         this.fish2 = new Fish(this, 600, 0, 'fish');
 
         this.wood = new Wood(this, 600, 0, 'wood');
+
+        this.children = [];
+
+        this.child = new Child(this, 0, 0, 'child');
+
+        this.children.push(this.child);
 
         this.crafting = new Crafting(this);
 
@@ -69,20 +77,20 @@ class SeaScene extends Phaser.Scene {
             this.bg2.y = -700
         }
 
-        
+        this.child.update();
 
         this.player.update();
 
         this.fishEatenText.setText(this.fishEaten)
         
-        var playerBounds = [this.player];        
+        var playerBounds = [this.player, ...this.childrenRafts.filter(c => c.hasChild)];        
 
         this.fish.update(playerBounds);
         this.fish2.update(playerBounds);
 
-        this.wood.update(this.player);
+        this.wood.update([this.player, ...this.childrenRafts]);
 
-        this.childrenRafts.forEach(r => r.update())
+        this.childrenRafts.forEach(r => r.update(this.children))
 
         this.crafting.update();
 
