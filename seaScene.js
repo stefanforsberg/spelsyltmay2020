@@ -7,6 +7,7 @@ class SeaScene extends Phaser.Scene {
     preload() {
         this.load.image('bg', 'assets/bg.png');
         this.load.image('fish', 'assets/fish.png');
+        this.load.image('fishPoison', 'assets/fishPoison.png');
         this.load.image('wood', 'assets/wood.png');
         this.load.image('repairRaft', 'assets/repairRaft.png');
         this.load.image('addRaft', 'assets/addRaft.png');
@@ -36,9 +37,7 @@ class SeaScene extends Phaser.Scene {
 
         this.player = new Player(this);
 
-        this.fish = new Fish(this, 50, 50, 'fish');
-
-        this.fish2 = new Fish(this, 600, 0, 'fish');
+        
 
         this.wood = new Wood(this, 600, 0, 'wood');
 
@@ -57,6 +56,10 @@ class SeaScene extends Phaser.Scene {
         this.fishEatenText = this.add.text(30, 30, '0').setFontFamily('Arial').setFontSize(48).setColor('#ffff00');
 
         this.events.on("AddRaft", this.addRaft, this);
+
+        this.fish = new Fish(this, 50, 50, 'fish');
+
+        this.fish2 = new Fish(this, 600, 0, 'fish');
 
     }
 

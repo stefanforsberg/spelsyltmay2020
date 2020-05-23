@@ -12,6 +12,10 @@ class Fish extends Phaser.GameObjects.Sprite {
 
         this.canMove = true;
 
+        this.speed = 0;
+
+        this.eatValue = 0;
+
         scene.input.setDraggable(this);
 
         this.on('dragstart', function (pointer) {
@@ -42,12 +46,23 @@ class Fish extends Phaser.GameObjects.Sprite {
     respawn() {
         this.x = Phaser.Math.Between(20, 700);
         this.y = Phaser.Math.Between(0, 30);
+        this.speed = Phaser.Math.FloatBetween(1,3);
+
+        if(Phaser.Math.FloatBetween(0,1) > 0.2) {
+            console.log("poison fish")
+            this.setTexture('fishPoison');
+            this.eatValue = -10;
+        } else {
+            console.log("normal fish")
+            this.setTexture('fish');
+            this.eatValue = 20;
+        }
     }
 
     update(players) {
 
         if(this.canMove) {
-            this.y += 3;
+            this.y += this.speed;
 
             if(this.y > 1400) {
                 this.respawn();
@@ -55,48 +70,11 @@ class Fish extends Phaser.GameObjects.Sprite {
 
             players.forEach(pb => {
                 if(Phaser.Geom.Intersects.RectangleToRectangle(this.getBounds(), pb.getBounds())) {
-                    pb.eat();
+                    pb.eat(this.eatValue);
                     this.scene.events.emit("EatFish");
                     this.respawn();
                 }
             });
         }
-
-
-        
-        
-
-        // // Horizontal movement
-        // if (this.scene.cursors.left.isDown)
-        // {
-        //     this.flipX = true;
-        //     this.body.setVelocityX(-80);
-        // }
-        // else if (this.scene.cursors.right.isDown)
-        // {
-        //     this.flipX = false;
-        //     this.body.setVelocityX(80);
-        // } else {
-        //     this.body.setVelocityX(0);
-        // }
-        // // Vertical movement
-        // if (this.scene.cursors.up.isDown)
-        // {
-        //     this.flipY = false;
-        //     this.body.setVelocityY(-80);
-        // }
-        // else if (this.scene.cursors.down.isDown)
-        // {
-        //     this.flipY = true;
-        //     this.body.setVelocityY(80);
-        // }  
-
-        // if (this.scene.cursors.left.isDown || this.scene.cursors.right.isDown) {
-        //     this.anims.play('vertical', true);
-        // } else if (this.scene.cursors.up.isDown || this.scene.cursors.down.isDown) {
-        //     this.anims.play('horisontal', true);
-        // } else {
-        //     this.anims.stop();
-        // }
     }   
 }

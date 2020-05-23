@@ -26,9 +26,9 @@ class Player extends Phaser.GameObjects.Container {
         return this.player.getBounds()
     }
 
-    eat() {
+    eat(eatValue) {
         console.log("eat")
-        this.life -= 40;
+        this.life -= eatValue;
 
         if(this.life < 0) {
             this.life = 0;

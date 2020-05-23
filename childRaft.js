@@ -38,8 +38,8 @@ class ChildRaft extends Phaser.GameObjects.Container {
         // scene.events.on("RepairRaft", this.repairRaft, this);
     }
 
-    eat() {
-        this.childLife -= 40;
+    eat(eatValue) {
+        this.childLife -= eatValue;
 
         if(this.childLife < 0) {
             this.childLife = 0;

@@ -42,6 +42,8 @@ class Wood extends Phaser.GameObjects.Sprite {
 
     update(players) {
 
+        this.angle+=+0.2;
+
         if(this.canMove) {
             this.y += 1;
 
