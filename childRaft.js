@@ -15,9 +15,6 @@ class ChildRaft extends Phaser.GameObjects.Container {
         this.childLife = 0;
         this.childLifeGraphics = this.scene.add.graphics();
 
-        
-        
-        
         this.add(this.raft);
         this.add(this.raftLifeGraphics);
         this.add(this.childLifeGraphics);
@@ -58,33 +55,8 @@ class ChildRaft extends Phaser.GameObjects.Container {
         return this.raft.getBounds()
     }
 
-    // eat() {
-    //     console.log("eat")
-    //     this.life -= 40;
-
-    //     if(this.life < 0) {
-    //         this.life = 0;
-    //     }
-    // }
-
-    // fetchWood() {
-    //     console.log("wood")
-    //     this.wood += 20;
-    // }
-
-    // repairRaft() {
-    //     this.raftLife += 20;
-
-    //     if(this.raftLife > 180) {
-    //         this.raftLife = 180;
-    //     }
-    // }
-
     update(children) {
-
         this.updateChild(children);
-
-        
         this.updateRaft();
     }
 
@@ -105,6 +77,7 @@ class ChildRaft extends Phaser.GameObjects.Container {
             children.filter(c => c.canBePlacedOnRaft()).forEach(child => {
                 if(Phaser.Geom.Intersects.RectangleToRectangle(this.getBounds(), child.getBounds())) {
                     child.destroy();
+                    child.canMove = false;
                     this.addChildToRaft();
                 }
             });
