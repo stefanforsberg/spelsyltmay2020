@@ -3,7 +3,13 @@ class Player extends Phaser.GameObjects.Container {
 
         super(scene, 0, 0);
 
+        this.scene = scene;
+
         this.name = "Player"
+
+        this.addRaftWaves();
+
+        this.life = 0;
 
         this.player = this.scene.add.image(400, 800, 'player');
 
@@ -11,18 +17,54 @@ class Player extends Phaser.GameObjects.Container {
 
         this.raftLife = 180;
         this.raftLifeGraphics = this.scene.add.graphics();
-        
-        this.life = 0;
 
+        
+        
         this.add(this.player);
         this.add(this.playerLife);
+        this.add(this.raftLifeGraphics)
+        
 
-        this.scene = scene;
 
         scene.add.existing(this);
 
+        scene.tweens.add({
+            targets: [ this ],
+            props: {
+                x: { value: `+=${Phaser.Math.Between(-10, 10)}`, duration: 5000, ease: 'Sine.InOut' },
+                y: { value: `+=${Phaser.Math.Between(-10, 10)}`, duration: 5000, ease: 'Sine.InOut' },
+                angle: { value: `+=${Phaser.Math.Between(-5, 5)}`, duration: 15000, ease: 'Sine.InOut' }
+            },
+            yoyo: true,
+            repeat: -1,
+            
+        });
+
+        
+
         scene.events.on("RepairRaft", this.repairRaft, this);
     }
+
+    addRaftWaves() {
+        for(var i = 0; i < 5; i++) {
+            let raftWave = this.scene.add.ellipse(400, 800, 100, 150, 0xFFFFFF, 0);
+            raftWave.setStrokeStyle(5, 0xFFFFFF, 0.3);
+
+            this.add(raftWave)
+
+            this.scene.tweens.add({
+                targets: [ raftWave ],
+                props: {
+                    displayWidth : { value: "+=200", duration: 7000, ease: 'Sine.InOut' },
+                    displayHeight: { value: "+=220", duration: 7000, ease: 'Sine.InOut' },
+                    alpha: { from: 1, to: 0.1, duration: 7000, ease: 'Sine.InOut' },
+                },
+                repeat: -1,
+                delay: 1300*i
+            });
+        }
+    }
+
 
     getBounds() {
         return this.player.getBounds()
