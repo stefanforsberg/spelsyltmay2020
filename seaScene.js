@@ -3,23 +3,23 @@ class SeaScene extends Phaser.Scene {
         console.log("sea")
         super({ key: 'SeaScene' });
     }
-    
+
     preload() {
-        this.load.image('bg', 'assets/bg.png');
-        this.load.image('fish', 'assets/fish.png');
-        this.load.image('fishPoison', 'assets/fishPoison.png');
-        this.load.image('wood', 'assets/wood.png');
-        this.load.image('repairRaft', 'assets/repairRaft.png');
-        this.load.image('addRaft', 'assets/addRaft.png');
-        this.load.image('player', 'assets/player.png');
-        this.load.image('childRaft', 'assets/childRaft.png');
-        this.load.image('childRaftWithChild', 'assets/childRaftWithChild.png');
-        this.load.image('child', 'assets/child.png');
+        console.log("preloading")
     }
 
     create() {
         console.log("create")
 
+        this.events.on("EatFish", () => { this.fishEaten = this.fishEaten + 1;}, this);
+
+        this.events.on("AddRaft", this.addRaft, this);
+
+        this.restart();
+
+    }
+
+    restart() {
         this.bg1 = this.add.sprite(400,700,'bg');
         this.bg2 = this.add.sprite(400,700-1400,'bg');
 
@@ -37,8 +37,6 @@ class SeaScene extends Phaser.Scene {
 
         this.player = new Player(this);
 
-        
-
         this.wood = new Wood(this, 600, 0, 'wood');
 
         this.children = [];
@@ -51,16 +49,11 @@ class SeaScene extends Phaser.Scene {
 
         this.fishEaten = 0;
 
-        this.events.on("EatFish", () => { this.fishEaten = this.fishEaten + 1;}, this);
-
         this.fishEatenText = this.add.text(30, 30, '0').setFontFamily('Arial').setFontSize(48).setColor('#ffff00');
-
-        this.events.on("AddRaft", this.addRaft, this);
 
         this.fish = new Fish(this, 50, 50, 'fish');
 
         this.fish2 = new Fish(this, 600, 0, 'fish');
-
     }
 
     update() {

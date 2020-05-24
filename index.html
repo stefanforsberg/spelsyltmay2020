@@ -12,7 +12,9 @@
     <link rel="manifest" href="site.webmanifest">
 
     <script src="phaser.min.js"></script>
+    <script src="startScene.js"></script>
     <script src="seaScene.js"></script>
+    <script src="scoreScene.js"></script>
     <script src="crafting.js"></script>
     <script src="player.js"></script>
     <script src="childRaft.js"></script>
@@ -41,7 +43,9 @@
             },
             autoRound: false,
             scene: [
-                SeaScene
+                StartScene,
+                SeaScene,
+                ScoreScene
             ]
         };
 

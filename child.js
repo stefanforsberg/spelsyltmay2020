@@ -8,31 +8,44 @@ class Child extends Phaser.GameObjects.Sprite {
 
         this.canMove = true;
 
-        scene.input.setDraggable(this);
 
-        this.on('dragstart', function (pointer) {
-            this.canMove = false;
-            this.setTint(Math.random() * 0xffffff);
-
-        });
-
-        this.on('drag', function (pointer, dragX, dragY) {
-
-            this.x = dragX;
-            this.y = dragY;
-
-        });
-
-        this.on('dragend', function (pointer) {
-            this.canMove = true;
-            this.clearTint();
-        });
 
         this.scene = scene;
 
         this.respawn();
 
+        this.setTween()
+
+        scene.input.setDraggable(this);
+
+        this.on('dragstart', function (pointer) {
+            this.canMove = false;
+            this.tween.remove();
+        });
+
+        this.on('drag', function (pointer, dragX, dragY) {
+            this.x = dragX;
+            this.y = dragY;
+        });
+
+        this.on('dragend', function (pointer) {
+            this.canMove = true;
+            this.setTween();
+        });
+
         scene.add.existing(this);
+    }
+
+    setTween() {
+        this.tween = this.scene.tweens.add({
+            targets: this,
+            props: {
+                y: { value: `+=${Phaser.Math.Between(-20, 20)}`, ease: 'Sine.InOut' }
+            },
+            duration: 3000,
+            yoyo: true,
+            repeat: -1
+        });
     }
 
     canBePlacedOnRaft() {
@@ -40,14 +53,15 @@ class Child extends Phaser.GameObjects.Sprite {
     }
 
     respawn() {
-        this.x = Phaser.Math.Between(20, 700);
-        this.y = Phaser.Math.Between(0, 30);
+        this.x = -30;
+        this.y = Phaser.Math.Between(50, 500);
     }
 
     update(player) {
-
+        
         if(this.canMove) {
-            this.y += 1;
+            this.angle+= 0.2;
+            this.x += 0.5;
         }
     }   
 }
