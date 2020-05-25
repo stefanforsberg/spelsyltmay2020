@@ -15,6 +15,7 @@ class StartScene extends Phaser.Scene {
         this.load.image('childRaft', 'assets/childRaft.png');
         this.load.image('childRaftWithChild', 'assets/childRaftWithChild.png');
         this.load.image('child', 'assets/child.png');
+        this.load.image('rain', 'assets/rain.png');
     }
 
     create() {
@@ -35,17 +36,15 @@ class StartScene extends Phaser.Scene {
 
         this.scene.get('ScoreScene').scene.sleep();
         this.scene.get('SeaScene').scene.sleep();
-
-        
-        
     }
 
     startGame() {
         this.scene.setVisible(false);
+        this.scene.bringToTop('SeaScene')
         this.scene.get('SeaScene').restart();
         this.scene.get('ScoreScene').restart();
         this.scene.get('SeaScene').scene.wake();
-        this.scene.bringToTop('SeaScene')
+        
     }
 
     endGame() {

@@ -24,16 +24,18 @@ class Player extends Phaser.GameObjects.Container {
         this.add(this.playerLife);
         this.add(this.raftLifeGraphics)
         
-
-
         scene.add.existing(this);
 
-        scene.tweens.add({
+        this.angle = -1;
+        this.x-= 10;
+        this.y+= 10;
+
+        this.raftTween = scene.tweens.add({
             targets: [ this ],
             props: {
-                x: { value: `+=${Phaser.Math.Between(-10, 10)}`, duration: 5000, ease: 'Sine.InOut' },
-                y: { value: `+=${Phaser.Math.Between(-10, 10)}`, duration: 5000, ease: 'Sine.InOut' },
-                angle: { value: `+=${Phaser.Math.Between(-5, 5)}`, duration: 15000, ease: 'Sine.InOut' }
+                x: { value: '+=10', duration: 5000, ease: 'Sine.InOut' },
+                y: { value: '-=10', duration: 7000, ease: 'Sine.InOut' },
+                angle: { value: 1, duration: 10000, ease: 'Sine.InOut' }
             },
             yoyo: true,
             repeat: -1,
@@ -126,5 +128,20 @@ class Player extends Phaser.GameObjects.Container {
 
         this.raftLifeGraphics.fillStyle(0x0000ff, 1);
         this.raftLifeGraphics.fillRect(310, 930, this.raftLife, 20);
+    }
+
+    activateStormScene() {
+        this.raftTween.remove()
+        this.raftTween = this.scene.tweens.add({
+            targets: [ this ],
+            props: {
+                x: { value: '+=180', duration: 4000, ease: 'Sine.InOut' },
+                y: { value: '-=80', duration: 5000, ease: 'Sine.InOut' },
+                angle: { value: 5, duration: 5000, ease: 'Sine.InOut' }
+            },
+            yoyo: true,
+            repeat: -1,
+            
+        });
     }
 }

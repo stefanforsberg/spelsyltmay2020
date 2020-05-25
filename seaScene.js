@@ -11,11 +11,7 @@ class SeaScene extends Phaser.Scene {
     create() {
         console.log("create")
 
-        this.events.on("EatFish", () => { this.fishEaten = this.fishEaten + 1;}, this);
-
         this.events.on("AddRaft", this.addRaft, this);
-
-        this.restart();
 
     }
 
@@ -47,20 +43,17 @@ class SeaScene extends Phaser.Scene {
 
         this.crafting = new Crafting(this);
 
-        this.fishEaten = 0;
-
-        this.fishEatenText = this.add.text(30, 30, '0').setFontFamily('Arial').setFontSize(48).setColor('#ffff00');
-
         this.fish = new Fish(this, 50, 50, 'fish');
 
         this.fish2 = new Fish(this, 600, 0, 'fish');
+
+        this.switchToDay();
     }
 
     update() {
 
         this.bg1.y+=0.5;
         
-
         if(this.bg1.y > 700+1300) {
             console.log("moving 1")
             this.bg1.y = -700
@@ -77,8 +70,6 @@ class SeaScene extends Phaser.Scene {
 
         this.player.update();
 
-        this.fishEatenText.setText(this.fishEaten)
-        
         var playerBounds = [this.player, ...this.childrenRafts.filter(c => c.hasChild)];        
 
         this.fish.update(playerBounds);
@@ -105,4 +96,24 @@ class SeaScene extends Phaser.Scene {
         }
     }
 
+    switchToDay() {
+        this.scene.launch('DayScene')
+        this.scene.bringToTop('DayScene')
+        
+        
+    }
+
+    switchToNight() {
+        this.scene.remove('DayScene')
+        this.scene.launch('NightScene')
+        this.scene.bringToTop('NightScene')
+    }
+
+    switchToStorm() {
+        this.scene.remove('NightScene')
+        this.scene.launch('StormScene')
+        this.scene.bringToTop('StormScene')
+
+        this.player.activateStormScene();
+    }
 }

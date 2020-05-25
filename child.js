@@ -58,7 +58,7 @@ class Child extends Phaser.GameObjects.Sprite {
     }
 
     update(player) {
-        
+
         if(this.canMove) {
             this.angle+= 0.2;
             this.x += 0.5;

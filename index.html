@@ -15,6 +15,9 @@
     <script src="startScene.js"></script>
     <script src="seaScene.js"></script>
     <script src="scoreScene.js"></script>
+    <script src="dayScene.js"></script>
+    <script src="nightScene.js"></script>
+    <script src="stormScene.js"></script>
     <script src="crafting.js"></script>
     <script src="player.js"></script>
     <script src="childRaft.js"></script>
@@ -41,11 +44,15 @@
                 mode: Phaser.Scale.FIT,
                 autoCenter: Phaser.Scale.CENTER_BOTH
             },
+            debug: true,
             autoRound: false,
             scene: [
                 StartScene,
                 SeaScene,
-                ScoreScene
+                ScoreScene,
+                DayScene,
+                NightScene,
+                StormScene
             ]
         };
 
