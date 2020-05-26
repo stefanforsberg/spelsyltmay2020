@@ -7,6 +7,8 @@ class DayScene extends Phaser.Scene {
     init() {
         console.log("Init Day")
 
+        this.seaScene = this.scene.get('SeaScene');
+
         this.sky = this.add.rectangle(this.cameras.main.width/2, ((this.cameras.main.height-80)/2), this.cameras.main.width, this.cameras.main.height-80, 0x000000);
         this.sky.alpha = 0.0;
     }
@@ -15,20 +17,22 @@ class DayScene extends Phaser.Scene {
 
         console.log("Create Day")
 
-        this.time.delayedCall(4000, this.nightfall, [], this);
+        this.time.delayedCall(20000, this.nightfall, [], this);
 
-        
+        this.time.delayedCall(8000, this.seaScene.addChild, [], this.seaScene);
+
+        this.time.delayedCall(30000, this.seaScene.addChild, [], this.seaScene);
     }
 
     nightfall() {
         this.tweens.add({
             targets: [ this.sky ],
             props: {
-                alpha : { value: 0.7, duration: 10000, ease: 'Power.Easein' }
+                alpha : { value: 0.7, duration: 40000, ease: 'Power.Easein' }
             },
             repeat: 0,
             yoyo: false,
-            onComplete: function () { this.scene.get('SeaScene').switchToNight() },
+            onComplete: function () { this.seaScene.switchToNight() },
             onCompleteScope: this,
         });
     }

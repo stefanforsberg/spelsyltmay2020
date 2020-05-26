@@ -37,17 +37,13 @@ class SeaScene extends Phaser.Scene {
 
         this.children = [];
 
-        this.child = new Child(this, 0, 0, 'child');
-
-        this.children.push(this.child);
-
         this.crafting = new Crafting(this);
 
         this.fish = new Fish(this, 50, 50, 'fish');
 
         this.fish2 = new Fish(this, 600, 0, 'fish');
 
-        this.switchToDay();
+        this.switchToNight();
     }
 
     update() {
@@ -65,8 +61,7 @@ class SeaScene extends Phaser.Scene {
             console.log("moving 2")
             this.bg2.y = -700
         }
-
-        this.child.update();
+        this.children.forEach(c => c.update())
 
         this.player.update();
 
@@ -96,11 +91,14 @@ class SeaScene extends Phaser.Scene {
         }
     }
 
+    addChild() {
+        var child = new Child(this, 0, 0, 'child');
+        this.children.push(child);
+    }
+
     switchToDay() {
         this.scene.launch('DayScene')
         this.scene.bringToTop('DayScene')
-        
-        
     }
 
     switchToNight() {
