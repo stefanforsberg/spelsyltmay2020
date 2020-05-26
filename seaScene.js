@@ -29,6 +29,8 @@ class SeaScene extends Phaser.Scene {
             repeat: -1
         });
 
+        this.currentWeatherScene = null;
+
         this.childrenRafts = []
 
         this.player = new Player(this);
@@ -76,6 +78,8 @@ class SeaScene extends Phaser.Scene {
 
         this.crafting.update();
 
+        this.currentWeatherScene.update();
+
     }
 
     addRaft() {
@@ -91,27 +95,35 @@ class SeaScene extends Phaser.Scene {
         }
     }
 
+    shake() {
+        this.cameras.main.shake(300);
+    }
+
     addChild() {
         var child = new Child(this, 0, 0, 'child');
         this.children.push(child);
     }
 
     switchToDay() {
+        
         this.scene.launch('DayScene')
         this.scene.bringToTop('DayScene')
+        this.currentWeatherScene = this.scene.get('DayScene');
     }
 
     switchToNight() {
         this.scene.remove('DayScene')
         this.scene.launch('NightScene')
         this.scene.bringToTop('NightScene')
+        this.currentWeatherScene = this.scene.get('NightScene');
     }
 
     switchToStorm() {
         this.scene.remove('NightScene')
         this.scene.launch('StormScene')
         this.scene.bringToTop('StormScene')
-
+        
+        this.currentWeatherScene = this.scene.get('StormScene');
         this.player.activateStormScene();
     }
 }

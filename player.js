@@ -86,6 +86,10 @@ class Player extends Phaser.GameObjects.Container {
         this.wood += 20;
     }
 
+    sharkBite() {
+        this.raftLife -= 20;
+    }
+
     repairRaft() {
         this.raftLife += 20;
 

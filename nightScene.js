@@ -16,20 +16,32 @@ class NightScene extends Phaser.Scene {
 
         console.log("Create Night")
 
-        this.time.delayedCall(4000, this.daybreak, [], this);
+        this.seaScene = this.scene.get('SeaScene');
 
-        this.addShark();
+        this.player = this.seaScene.player;
+
+        this.time.delayedCall(20000, this.daybreak, [], this);
+
+        this.sharks = [];
+
+        this.time.delayedCall(5000, this.addShark, [], this);
+        this.time.delayedCall(15000, this.addShark, [], this);
+        this.time.delayedCall(20000, this.addShark, [], this);
+        this.time.delayedCall(30000, this.addShark, [], this);
+        this.time.delayedCall(35000, this.addShark, [], this);
+        this.time.delayedCall(40000, this.addShark, [], this);
+        
     }
 
     daybreak() {
         this.tweens.add({
             targets: [ this.sky ],
             props: {
-                alpha : { value: 0, duration: 10000, ease: 'Power.Easein' }
+                alpha : { value: 0, duration: 40000, ease: 'Power.Easein' }
             },
             repeat: 0,
             yoyo: false,
-            // onComplete: function () { this.scene.get('SeaScene').switchToStorm() },
+            onComplete: function () { this.scene.get('SeaScene').switchToStorm() },
             onCompleteScope: this,
         });
     }
@@ -37,20 +49,65 @@ class NightScene extends Phaser.Scene {
     addShark() {
         var shark = this.add.image(Phaser.Math.Between(0, 750), -100, 'shark');
 
+        this.sharks.push(shark)
+
         var angle = Phaser.Math.Angle.Between(shark.x, shark.y, 400, 900);
 
         shark.rotation = angle;
 
-        this.tweens.add({
+        shark.canHurt = true;
+
+        var sharkTween = this.tweens.add({
             targets: [ shark ],
             props: {
-                x : { value: 400, duration: 8000, ease: 'Power.Easein' },
-                y : { value: 800, duration: 8000, ease: 'Power.Easein' }
+                x : { value: 400, duration: 7000, ease: 'Cubic.In' },
+                y : { value: 800, duration: 7000, ease: 'Cubic.In' }
             },
             repeat: 0,
             yoyo: false,
-            // onComplete: function () { this.scene.get('SeaScene').switchToStorm() },
-            onCompleteScope: this,
         });
+
+        shark.setInteractive();
+
+        shark.on('pointerdown', function() {
+
+            shark.canHurt = false;
+
+            var targetX = shark.x > 375 ? 850 : -100;
+            var targetY = shark.y+300;
+
+            var angle = Phaser.Math.Angle.Between(shark.x, shark.y, targetX, targetY);
+
+            this.tweens.add({
+                targets: [ shark ],
+                props: {
+                    x : { value: targetX , duration: 2000, ease: 'Normal' },
+                    y : { value: targetY , duration: 2000, ease: 'Normal' },
+                    scale : { value: 0.5 , duration: 2000, ease: 'Normal' },
+                    alpha : { value: 0 , duration: 2000, ease: 'Normal' },
+                    rotation : { value: angle , duration: 2000, ease: 'Cubic.Out' },
+                },
+                repeat: 0,
+                yoyo: false,
+            });
+        }, this);
+
+
+    }
+
+    update() {
+        var playerBounds = this.player.getBounds();
+        this.sharks.forEach(shark => {
+            if(Phaser.Geom.Intersects.RectangleToRectangle(shark.getBounds(), playerBounds)) {
+                console.log("sharkbite")
+                this.seaScene.shake();
+                shark.canHurt = false;
+                shark.destroy();
+                this.player.sharkBite();
+                
+            }
+        });
+
+        this.sharks = this.sharks.filter(s => s.canHurt);
     }
 }
