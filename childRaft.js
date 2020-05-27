@@ -18,10 +18,13 @@ class ChildRaft extends Phaser.GameObjects.Container {
         this.childLife = 0;
         this.childLifeGraphics = this.scene.add.graphics();
 
+        this.addRaftWaves();
         this.add(this.raftRope);
         this.add(this.raft);
         this.add(this.raftLifeGraphics);
         this.add(this.childLifeGraphics);
+
+        
 
         scene.add.existing(this);
 
@@ -55,6 +58,27 @@ class ChildRaft extends Phaser.GameObjects.Container {
 
     getBounds() {
         return this.raft.getBounds()
+    }
+
+    addRaftWaves() {
+        for(var i = 0; i < 5; i++) {
+            let raftWave = this.scene.add.ellipse(0, 0, 40, 60, 0xFFFFFF, 0);
+            raftWave.setStrokeStyle(3, 0xFFFFFF, 0.3);
+
+            this.add(raftWave)
+
+            this.scene.tweens.add({
+                targets: [ raftWave ],
+                props: {
+                    displayWidth: { value: "+=90", duration: 7000, ease: 'Sine.InOut' },
+                    displayHeight: { value: "+=90", duration: 7000, ease: 'Sine.InOut' },
+                    alpha: { from: 1, to: 0.1, duration: 7000, ease: 'Sine.InOut' },
+                    y: { value: "+=30", duration: 7000, ease: 'Normal' },
+                },
+                repeat: -1,
+                delay: 1300*i
+            });
+        }
     }
 
     update(children, player) {
@@ -125,10 +149,6 @@ class ChildRaft extends Phaser.GameObjects.Container {
 
         this.raftRope.beginPath();
 
-
-        console.log("parentx: " + playerBounds.x)
-        console.log("parenty: " + playerBounds.y)
-
         this.raftRope.moveTo(0,0);
 
         if(this.x < playerBounds.x) {
@@ -136,10 +156,6 @@ class ChildRaft extends Phaser.GameObjects.Container {
         } else {
             this.raftRope.lineTo(playerBounds.x-this.x+playerBounds.width/2, playerBounds.y + playerBounds.height - this.y - 20);
         }
-        
-
-        // this.raftRope.moveTo(playerBounds.x+playerBounds.width/2, playerBounds.y+playerBounds.height-20);
-        // this.raftRope.lineTo(this.x, this.y+20);
     
         this.raftRope.closePath();
         this.raftRope.strokePath();

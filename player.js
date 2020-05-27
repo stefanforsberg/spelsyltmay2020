@@ -37,7 +37,7 @@ class Player extends Phaser.GameObjects.Container {
             props: {
                 x: { value: '+=10', duration: 5000, ease: 'Sine.InOut' },
                 y: { value: '-=10', duration: 7000, ease: 'Sine.InOut' },
-                angle: { value: 1, duration: 10000, ease: 'Sine.InOut' }
+                angle: { value: 1, duration: 10000, ease: 'Sine.InOut' },
             },
             yoyo: true,
             repeat: -1,
@@ -62,6 +62,7 @@ class Player extends Phaser.GameObjects.Container {
                     displayWidth : { value: "+=200", duration: 7000, ease: 'Sine.InOut' },
                     displayHeight: { value: "+=220", duration: 7000, ease: 'Sine.InOut' },
                     alpha: { from: 1, to: 0.1, duration: 7000, ease: 'Sine.InOut' },
+                    y: { value: "+=50", duration: 7000, ease: 'Normal' },
                 },
                 repeat: -1,
                 delay: 1300*i
