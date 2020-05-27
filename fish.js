@@ -53,7 +53,7 @@ class Fish extends Phaser.GameObjects.Sprite {
         if(Phaser.Math.FloatBetween(0,1) > 0.8) {
             console.log("poison fish")
             this.setTexture('fishPoison');
-            this.eatValue = -10;
+            this.eatValue = -20;
         } else {
             console.log("normal fish")
             this.setTexture('fish');

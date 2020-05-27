@@ -7,6 +7,8 @@ class Player extends Phaser.GameObjects.Container {
 
         this.name = "Player"
 
+        this.depth = 20;
+
         this.addRaftWaves();
 
         this.life = 0;
@@ -100,19 +102,12 @@ class Player extends Phaser.GameObjects.Container {
 
     update() {
         if(this.life < 180) {
-            // this.life = this.life + 0.5;
             this.life = this.life + 0.05;
-
         }
 
         if(this.life >= 180) {
             this.scene.events.emit("Endgame");
         }
-
-        if(this.raftLife > 0) {
-            this.raftLife -= 0.05;
-        }
-        
 
         this.playerLife.clear();
 
@@ -123,11 +118,17 @@ class Player extends Phaser.GameObjects.Container {
         this.playerLife.closePath();
 
         this.updateRaft();
-
-
     }
 
     updateRaft() {
+        if(this.raftLife > 0) {
+            this.raftLife -= 0.05;
+        }
+        
+        if(this.raftLife <= 0) {
+            this.scene.events.emit("Endgame");
+        }
+
         this.raftLifeGraphics.clear();
 
         this.raftLifeGraphics.fillStyle(0x0000ff, 1);

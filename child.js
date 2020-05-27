@@ -8,7 +8,7 @@ class Child extends Phaser.GameObjects.Sprite {
 
         this.canMove = true;
 
-
+        this.setDepth(10);
 
         this.scene = scene;
 

@@ -4,8 +4,11 @@ class ChildRaft extends Phaser.GameObjects.Container {
         super(scene, x, y);
 
         this.hasChild = false;
+        this.isChildAlive = false;
 
         this.name = "ChildRaft" + i;
+
+        this.raftRope = this.scene.add.graphics();
 
         this.raft = this.scene.add.image(0, 0, 'childRaft');
 
@@ -15,6 +18,7 @@ class ChildRaft extends Phaser.GameObjects.Container {
         this.childLife = 0;
         this.childLifeGraphics = this.scene.add.graphics();
 
+        this.add(this.raftRope);
         this.add(this.raft);
         this.add(this.raftLifeGraphics);
         this.add(this.childLifeGraphics);
@@ -31,8 +35,6 @@ class ChildRaft extends Phaser.GameObjects.Container {
             yoyo: true,
             repeat: -1
         });
-
-        // scene.events.on("RepairRaft", this.repairRaft, this);
     }
 
     eat(eatValue) {
@@ -55,24 +57,40 @@ class ChildRaft extends Phaser.GameObjects.Container {
         return this.raft.getBounds()
     }
 
-    update(children) {
+    update(children, player) {
+        if(!this.active) {
+            return;
+        }
+
         this.updateChild(children);
-        this.updateRaft();
+        this.updateRaft(player);
+    }
+
+    canChildEat() {
+        return this.hasChild && this.isChildAlive;
     }
 
     updateChild(children) {
         if(this.hasChild) {
-            if(this.childLife < 180) {
-                this.childLife = this.childLife + 0.05;
+            if(this.isChildAlive) {
+                if(this.childLife < 180) {
+                    this.childLife = this.childLife + 5;
+                }
+
+                if(this.childLife >= 180) {
+                    console.log("dead child")
+                    this.isChildAlive = false;
+                    this.raft.setTexture('childRaftChildDead')
+                }
+    
+                this.childLifeGraphics.clear();
+    
+                this.childLifeGraphics.lineStyle(10, 0xffffff);
+                this.childLifeGraphics.beginPath();
+                this.childLifeGraphics.arc(0, -5, 30, Phaser.Math.DegToRad(180), Phaser.Math.DegToRad(360-this.childLife), false, 0.02);
+                this.childLifeGraphics.strokePath();
+                this.childLifeGraphics.closePath();
             }
-
-            this.childLifeGraphics.clear();
-
-            this.childLifeGraphics.lineStyle(10, 0xffffff);
-            this.childLifeGraphics.beginPath();
-            this.childLifeGraphics.arc(0, -5, 30, Phaser.Math.DegToRad(180), Phaser.Math.DegToRad(360-this.childLife), false, 0.02);
-            this.childLifeGraphics.strokePath();
-            this.childLifeGraphics.closePath();
         } else {
             children.filter(c => c.canBePlacedOnRaft()).forEach(child => {
                 if(Phaser.Geom.Intersects.RectangleToRectangle(this.getBounds(), child.getBounds())) {
@@ -84,10 +102,14 @@ class ChildRaft extends Phaser.GameObjects.Container {
         }
     }
 
-    updateRaft() {
+    updateRaft(player) {
 
         if(this.raftLife > 0) {
             this.raftLife -= 0.05;
+        }
+
+        if(this.raftLife <= 0) {
+            this.destroy();
         }
         
         this.raftLifeGraphics.clear();
@@ -95,11 +117,39 @@ class ChildRaft extends Phaser.GameObjects.Container {
         this.raftLifeGraphics.fillStyle(0x0000ff, 1);
         this.raftLifeGraphics.fillRect(-50, 50, this.raftLife, 10);
 
+        var playerBounds = player.getBounds();
+
+        this.raftRope.clear();
+
+        this.raftRope.lineStyle(5, 0xF3F3F3);
+
+        this.raftRope.beginPath();
+
+
+        console.log("parentx: " + playerBounds.x)
+        console.log("parenty: " + playerBounds.y)
+
+        this.raftRope.moveTo(0,0);
+
+        if(this.x < playerBounds.x) {
+            this.raftRope.lineTo(this.x-playerBounds.x+playerBounds.width/2, playerBounds.y + playerBounds.height - this.y - 20);
+        } else {
+            this.raftRope.lineTo(playerBounds.x-this.x+playerBounds.width/2, playerBounds.y + playerBounds.height - this.y - 20);
+        }
+        
+
+        // this.raftRope.moveTo(playerBounds.x+playerBounds.width/2, playerBounds.y+playerBounds.height-20);
+        // this.raftRope.lineTo(this.x, this.y+20);
+    
+        this.raftRope.closePath();
+        this.raftRope.strokePath();
+
 
     }
 
     addChildToRaft() {
         this.hasChild = true;
+        this.isChildAlive = true;
         this.raft.setTexture('childRaftWithChild')
     }
 }

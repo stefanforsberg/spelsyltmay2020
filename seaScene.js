@@ -13,6 +13,9 @@ class SeaScene extends Phaser.Scene {
 
         this.events.on("AddRaft", this.addRaft, this);
 
+        this.events.on('Endgame', this.endGame, this);
+
+        this.isStarted = false;
     }
 
     restart() {
@@ -33,6 +36,8 @@ class SeaScene extends Phaser.Scene {
 
         this.childrenRafts = []
 
+        this.raftRopes = this.add.graphics();
+
         this.player = new Player(this);
 
         this.wood = new Wood(this, 600, 0, 'wood');
@@ -45,11 +50,17 @@ class SeaScene extends Phaser.Scene {
 
         this.fish2 = new Fish(this, 600, 0, 'fish');
 
-        this.switchToNight();
+        this.switchToDay();
+        
+        console.log("finished restart");
+    }
+
+    endGame() {
+        this.currentWeatherScene.scene.stop();
+        this.cameras.main.resetFX();
     }
 
     update() {
-
         this.bg1.y+=0.5;
         
         if(this.bg1.y > 700+1300) {
@@ -63,23 +74,48 @@ class SeaScene extends Phaser.Scene {
             console.log("moving 2")
             this.bg2.y = -700
         }
-        this.children.forEach(c => c.update())
+        
 
         this.player.update();
 
-        var playerBounds = [this.player, ...this.childrenRafts.filter(c => c.hasChild)];        
+        var playerBounds = [this.player, ...this.childrenRafts.filter(c => c.canChildEat())];        
 
         this.fish.update(playerBounds);
         this.fish2.update(playerBounds);
 
         this.wood.update([this.player, ...this.childrenRafts]);
 
-        this.childrenRafts.forEach(r => r.update(this.children))
+        this.childrenRafts.forEach(r => r.update(this.children, this.player))
+
+        this.children.forEach(c => c.update())
 
         this.crafting.update();
 
         this.currentWeatherScene.update();
 
+        this.updateRaftRopes();
+    }
+
+    updateRaftRopes() {
+
+        // if(this.childrenRafts.length > 0) {
+
+        //     var playerBounds = this.player.getBounds();
+
+        //     this.raftRopes.clear();
+
+        //     this.raftRopes.lineStyle(5, 0xF3F3F3);
+
+        //     this.childrenRafts.forEach(r => {
+        //         this.raftRopes.beginPath();
+        
+        //         this.raftRopes.moveTo(playerBounds.x+playerBounds.width/2, playerBounds.y+playerBounds.height-20);
+        //         this.raftRopes.lineTo(r.x, r.y+20);
+            
+        //         this.raftRopes.closePath();
+        //         this.raftRopes.strokePath();
+        //     });
+        // }
     }
 
     addRaft() {
@@ -95,7 +131,10 @@ class SeaScene extends Phaser.Scene {
         }
     }
 
+    
+
     shake() {
+        console.log("shak")
         this.cameras.main.shake(300);
     }
 
@@ -112,14 +151,14 @@ class SeaScene extends Phaser.Scene {
     }
 
     switchToNight() {
-        this.scene.remove('DayScene')
+        this.scene.stop('DayScene')
         this.scene.launch('NightScene')
         this.scene.bringToTop('NightScene')
         this.currentWeatherScene = this.scene.get('NightScene');
     }
 
     switchToStorm() {
-        this.scene.remove('NightScene')
+        this.scene.stop('NightScene')
         this.scene.launch('StormScene')
         this.scene.bringToTop('StormScene')
         

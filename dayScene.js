@@ -19,7 +19,7 @@ class DayScene extends Phaser.Scene {
 
         this.time.delayedCall(20000, this.nightfall, [], this);
 
-        this.time.delayedCall(8000, this.seaScene.addChild, [], this.seaScene);
+        this.time.delayedCall(0, this.seaScene.addChild, [], this.seaScene);
 
         this.time.delayedCall(30000, this.seaScene.addChild, [], this.seaScene);
     }

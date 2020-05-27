@@ -30,7 +30,6 @@ class NightScene extends Phaser.Scene {
         this.time.delayedCall(30000, this.addShark, [], this);
         this.time.delayedCall(35000, this.addShark, [], this);
         this.time.delayedCall(40000, this.addShark, [], this);
-        
     }
 
     daybreak() {
@@ -96,15 +95,18 @@ class NightScene extends Phaser.Scene {
     }
 
     update() {
+        
+        if(!this.player) {
+            return;
+        }
+        
         var playerBounds = this.player.getBounds();
         this.sharks.forEach(shark => {
             if(Phaser.Geom.Intersects.RectangleToRectangle(shark.getBounds(), playerBounds)) {
-                console.log("sharkbite")
                 this.seaScene.shake();
                 shark.canHurt = false;
                 shark.destroy();
                 this.player.sharkBite();
-                
             }
         });
 

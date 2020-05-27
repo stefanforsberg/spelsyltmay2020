@@ -38,12 +38,6 @@ class Crafting extends Phaser.GameObjects.Container {
         console.log("add: " + this.wood)
 
         this.scene.events.emit("AddRaft");
-
-        // if(this.wood >=20) {
-        //     // console.log("repair with woof")
-        //     // this.wood-=20;
-        //     // this.scene.events.emit("RepairRaft");
-        // }
     }
 
     repairRaft() {

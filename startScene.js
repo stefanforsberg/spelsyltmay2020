@@ -14,6 +14,7 @@ class StartScene extends Phaser.Scene {
         this.load.image('player', 'assets/player.png');
         this.load.image('childRaft', 'assets/childRaft.png');
         this.load.image('childRaftWithChild', 'assets/childRaftWithChild.png');
+        this.load.image('childRaftChildDead', 'assets/childRaftChildDead.png');
         this.load.image('child', 'assets/child.png');
         this.load.image('rain', 'assets/rain.png');
         this.load.image('fog', 'assets/fog.png');
