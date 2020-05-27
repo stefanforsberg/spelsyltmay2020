@@ -44,8 +44,6 @@ class Player extends Phaser.GameObjects.Container {
             
         });
 
-        
-
         scene.events.on("RepairRaft", this.repairRaft, this);
     }
 
