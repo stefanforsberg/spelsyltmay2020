@@ -50,7 +50,7 @@ class SeaScene extends Phaser.Scene {
 
         this.wood = new Wood(this, 600, 0, 'wood');
 
-        this.switchToStorm();
+        this.switchToDay();
         
         console.log("finished restart");
     }
