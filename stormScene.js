@@ -26,7 +26,7 @@ class StormScene extends Phaser.Scene {
             speed: { min: -400, max: -600 },
             angle: 115,
             gravityY: 100,
-            blendMode: 'ADD',
+            blendMode: 'NORMAL',
             emitZone: { type: 'random', source: new Phaser.Geom.Rectangle(0, -100, 900, 1300) }
         });
 
@@ -34,13 +34,12 @@ class StormScene extends Phaser.Scene {
 
         var emitterLeft = fog.createEmitter({
             x: 0, y: 0,
-            lifespan: 16000,
+            lifespan: 20000,
             scale: {min: 1, max: 3 },
-            // alpha: { start: 0.7, end: 0 },
-            speedX: { min: 20, max: 50 },
+            speedX: { min: 10, max: 30 },
             gravityY: 1,
             gravityX: 1,
-            frequency: 1000,
+            frequency: 800,
             blendMode: 'NORMAL',
             emitZone: { type: 'random', source: new Phaser.Geom.Rectangle(-200, 0, 200, 1300) },
         });
@@ -51,19 +50,18 @@ class StormScene extends Phaser.Scene {
 
         var emitterRight = fog.createEmitter({
             x: 0, y: 0,
-            lifespan: 16000,
+            lifespan: 20000,
             scale: {min: 1, max: 3 },
-            // alpha: { start: 0.7, end: 0 },
-            speedX: { min: -50, max: -20 },
+            speedX: { min: -30, max: -10 },
             gravityY: -1,
             gravityX: 1,
-            frequency: 1000,
+            frequency: 800,
             blendMode: 'NORMAL',
             emitZone: { type: 'random', source: new Phaser.Geom.Rectangle(750, 0, 200, 1300) },
         });
 
         emitterRight.setAlpha(function (p, k, t) { 
-            return 1 - 2 * Math.abs(t - 0.5); 
+            return 0.5 - 2 * Math.abs(t - 0.5); 
         });
 
 

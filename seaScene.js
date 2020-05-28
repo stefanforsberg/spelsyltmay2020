@@ -40,8 +40,6 @@ class SeaScene extends Phaser.Scene {
 
         this.player = new Player(this);
 
-        this.wood = new Wood(this, 600, 0, 'wood');
-
         this.children = [];
 
         this.crafting = new Crafting(this);
@@ -50,12 +48,15 @@ class SeaScene extends Phaser.Scene {
 
         this.fish2 = new Fish(this, 600, 0, 'fish');
 
-        this.switchToDay();
+        this.wood = new Wood(this, 600, 0, 'wood');
+
+        this.switchToStorm();
         
         console.log("finished restart");
     }
 
     endGame() {
+        this.player.destroy();
         this.currentWeatherScene.scene.stop();
         this.cameras.main.resetFX();
     }

@@ -19,9 +19,8 @@ class Fish extends Phaser.GameObjects.Sprite {
         scene.input.setDraggable(this);
 
         this.on('dragstart', function (pointer) {
+            this.tween.remove();
             this.canMove = false;
-            this.setTint(Math.random() * 0xffffff);
-
         });
 
         this.on('drag', function (pointer, dragX, dragY) {
@@ -33,22 +32,37 @@ class Fish extends Phaser.GameObjects.Sprite {
 
         this.on('dragend', function (pointer) {
             this.canMove = true;
-            this.clearTint();
+            this.setTween();
         });
 
         this.scene = scene;
+
+        this.setTween();
 
         this.respawn();
 
         scene.add.existing(this);
     }
 
+    setTween() {
+        this.tween = this.scene.tweens.add({
+            targets: this,
+            props: {
+                x: { value: `+=30`, ease: 'Sine.InOut' },
+                angle: { value: `+=2`, ease: 'Sine.InOut' }
+            },
+            duration: 2000,
+            yoyo: true,
+            repeat: -1
+        });
+    }
+
     respawn() {
         this.x = Phaser.Math.Between(20, 700);
-        this.y = Phaser.Math.Between(0, 30);
-        this.speed = Phaser.Math.FloatBetween(1,3);
+        this.y = Phaser.Math.Between(-150, -100);
+        this.speed = Phaser.Math.FloatBetween(0.5,2);
 
-        this.alpha = Phaser.Math.Between(2, 5) / 10;
+        this.alpha = 0.8;
 
         if(Phaser.Math.FloatBetween(0,1) > 0.8) {
             console.log("poison fish")
