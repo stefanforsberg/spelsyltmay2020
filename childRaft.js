@@ -3,6 +3,8 @@ class ChildRaft extends Phaser.GameObjects.Container {
 
         super(scene, x, y);
 
+        this.scene = scene;
+
         this.hasChild = false;
         this.isChildAlive = false;
 
@@ -12,6 +14,28 @@ class ChildRaft extends Phaser.GameObjects.Container {
 
         this.raft = this.scene.add.image(0, 0, 'childRaft');
 
+        this.isBuilt = false;
+
+        this.raft.alpha = 0.3;
+
+        this.raft.setInteractive();
+
+        this.raft.on('pointerdown', () => {
+            if(!this.isBuilt) {
+                scene.events.emit("BuildRaftRequest", this);
+            } else {
+                scene.events.emit("RepairRaftRequest", this);
+            }
+        }, this);
+
+        this.add(this.raft);
+
+        scene.add.existing(this);
+    }
+
+    build() {
+        this.isBuilt = true;
+        this.raft.alpha = 1;
         this.raftLife = 100;
         this.raftLifeGraphics = this.scene.add.graphics();
 
@@ -20,15 +44,10 @@ class ChildRaft extends Phaser.GameObjects.Container {
 
         this.addRaftWaves();
         this.add(this.raftRope);
-        this.add(this.raft);
         this.add(this.raftLifeGraphics);
         this.add(this.childLifeGraphics);
 
-        
-
-        scene.add.existing(this);
-
-        scene.tweens.add({
+        this.scene.tweens.add({
             targets: [ this ],
             props: {
                 x: { value: `+=${Phaser.Math.Between(-10, 10)}`, duration: 5000, ease: 'Sine.InOut' },
@@ -38,6 +57,9 @@ class ChildRaft extends Phaser.GameObjects.Container {
             yoyo: true,
             repeat: -1
         });
+
+        this.bringToTop(this.raft);
+
     }
 
     eat(eatValue) {
@@ -48,7 +70,7 @@ class ChildRaft extends Phaser.GameObjects.Container {
         }
     }
 
-    fetchWood() {
+    repairRaft() {
         this.raftLife += 20;
 
         if(this.raftLife > 100) {
@@ -63,6 +85,7 @@ class ChildRaft extends Phaser.GameObjects.Container {
     addRaftWaves() {
         for(var i = 0; i < 5; i++) {
             let raftWave = this.scene.add.ellipse(0, 0, 40, 60, 0xFFFFFF, 0);
+            raftWave.depth = 5;
             raftWave.setStrokeStyle(3, 0xFFFFFF, 0.3);
 
             this.add(raftWave)
@@ -82,7 +105,7 @@ class ChildRaft extends Phaser.GameObjects.Container {
     }
 
     update(children, player) {
-        if(!this.active) {
+        if(!this.active || !this.isBuilt) {
             return;
         }
 

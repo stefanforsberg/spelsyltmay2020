@@ -11,11 +11,11 @@ class SeaScene extends Phaser.Scene {
     create() {
         console.log("create")
 
-        this.events.on("AddRaft", this.addRaft, this);
-
         this.events.on('Endgame', this.endGame, this);
 
         this.isStarted = false;
+
+        this.crafting = new Crafting(this);
     }
 
     restart() {
@@ -42,15 +42,19 @@ class SeaScene extends Phaser.Scene {
 
         this.children = [];
 
-        this.crafting = new Crafting(this);
-
         this.fish = new Fish(this, 50, 50, 'fish');
 
         this.fish2 = new Fish(this, 600, 0, 'fish');
 
         this.wood = new Wood(this, 600, 0, 'wood');
 
+        this.addRafts();
+
         this.switchToDay();
+
+        this.crafting.restart();
+
+        this.crafting.depth = 1000
         
         console.log("finished restart");
     }
@@ -76,7 +80,6 @@ class SeaScene extends Phaser.Scene {
             this.bg2.y = -700
         }
         
-
         this.player.update();
 
         var playerBounds = [this.player, ...this.childrenRafts.filter(c => c.canChildEat())];        
@@ -84,7 +87,7 @@ class SeaScene extends Phaser.Scene {
         this.fish.update(playerBounds);
         this.fish2.update(playerBounds);
 
-        this.wood.update([this.player, ...this.childrenRafts]);
+        this.wood.update(this.player);
 
         this.childrenRafts.forEach(r => r.update(this.children, this.player))
 
@@ -119,17 +122,11 @@ class SeaScene extends Phaser.Scene {
         // }
     }
 
-    addRaft() {
-        switch(this.childrenRafts.length) {
-            case 0:
-                var childrenRaft = new ChildRaft(this, 310, 1150, 1)
-                this.childrenRafts.push(childrenRaft);
-                break;
-            case 1:
-                var childrenRaft = new ChildRaft(this, 490, 1150, 1)
-                this.childrenRafts.push(childrenRaft);
-                break;
-        }
+    addRafts() {
+        this.childrenRafts.push(
+            new ChildRaft(this, 310, 1150, 1),
+            new ChildRaft(this, 490, 1150, 2)
+        );
     }
 
     

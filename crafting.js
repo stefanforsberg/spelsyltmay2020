@@ -9,55 +9,57 @@ class Crafting extends Phaser.GameObjects.Container {
 
         var background = scene.add.graphics();
 
-        background.fillStyle(0xff00ff, 0.4);
+        background.fillStyle(0xff00ff, 1);
         background.fillRect(0, 0, scene.cameras.main.width, 80);
 
-        this.woodText = scene.add.text(10, 10, '0').setFontFamily('Arial').setFontSize(48).setColor('#ffff00');
+        this.woodText = scene.add.text(100, 15, '0').setFontFamily('Arial').setFontSize(48).setColor('#ffffff');
 
-        var repairPlayerRaft = scene.add.sprite(130, 40, 'repairRaft');
-        repairPlayerRaft.setInteractive();
-        repairPlayerRaft.on('pointerdown', this.repairRaft, this);
-
-        var addRaft = scene.add.sprite(230, 40, 'addRaft');
-        addRaft.setInteractive();
-        addRaft.on('pointerdown', this.addRaft, this);
+        var woodImage = scene.add.sprite(45, 40, 'wood')
 
         this.add(background);
-        this.add(repairPlayerRaft);
-        this.add(addRaft);
         this.add(this.woodText);
+        this.add(woodImage);
 
         scene.add.existing(this);
 
-        this.wood = 0;
-
         scene.events.on("FetchWood", this.fetchWood, this);
+
+        scene.events.on("RepairRaftRequest", this.repairRaft, this);
+
+        scene.events.on("BuildRaftRequest", this.buildRaft, this);
+        
     }
 
-    addRaft() {
-        console.log("add: " + this.wood)
-
-        this.scene.events.emit("AddRaft");
+    restart() {
+        this.wood = 0;
     }
 
-    repairRaft() {
+    buildRaft(e) {
+        console.log("build: " + this.wood)
+        if(this.wood >=5) {
+            this.wood-=5;
+            e.build();
+        }
+    }
+
+    repairRaft(e) {
         console.log("repair: " + this.wood)
-        if(this.wood >=20) {
-            console.log("repair with woof")
-            this.wood-=20;
-            this.scene.events.emit("RepairRaft");
+        if(this.wood >=1) {
+            console.log("repair with wood")
+            this.wood-=1;
+            e.repairRaft();
         }
     }
 
     fetchWood() {
-        this.wood+=20;
-        
-
+        this.wood+=1;
     }
 
     update() {
+        if(!this.active) {
+            return;
+        }
+        
         this.woodText.setText(this.wood);
     }
-
-    
 }

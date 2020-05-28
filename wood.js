@@ -17,10 +17,8 @@ class Wood extends Phaser.GameObjects.Sprite {
         });
 
         this.on('drag', function (pointer, dragX, dragY) {
-
             this.x = dragX;
             this.y = dragY;
-
         });
 
         this.on('dragend', function (pointer) {
@@ -40,7 +38,7 @@ class Wood extends Phaser.GameObjects.Sprite {
         this.y = Phaser.Math.Between(0, 30);
     }
 
-    update(players) {
+    update(player) {
 
         this.angle+=+0.2;
 
@@ -50,15 +48,12 @@ class Wood extends Phaser.GameObjects.Sprite {
             if(this.y > 1400) {
                 this.respawn();
             }
-            players.forEach(pb => {
-                if(Phaser.Geom.Intersects.RectangleToRectangle(this.getBounds(), pb.getBounds())) {
-                    if(Phaser.Geom.Intersects.RectangleToRectangle(this.getBounds(), pb.getBounds())) {
-                        pb.fetchWood();
-                        this.scene.events.emit("FetchWood");
-                        this.respawn();
-                    }
-                }
-            });
+            
+            if(Phaser.Geom.Intersects.RectangleToRectangle(this.getBounds(), player.getBounds())) {
+                player.fetchWood();
+                this.scene.events.emit("FetchWood");
+                this.respawn();
+            }
 
             
         }

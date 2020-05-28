@@ -15,12 +15,16 @@ class Player extends Phaser.GameObjects.Container {
 
         this.player = this.scene.add.image(400, 800, 'player');
 
+        this.player.setInteractive();
+
+        this.player.on('pointerdown', () => {
+            scene.events.emit("RepairRaftRequest", this);
+        }, this);
+
         this.playerLife = this.scene.add.graphics();
 
         this.raftLife = 180;
         this.raftLifeGraphics = this.scene.add.graphics();
-
-        
         
         this.add(this.player);
         this.add(this.playerLife);
@@ -112,7 +116,7 @@ class Player extends Phaser.GameObjects.Container {
 
         this.playerLife.lineStyle(10, 0xffffff);
         this.playerLife.beginPath();
-        this.playerLife.arc(400, 800, 40, Phaser.Math.DegToRad(180), Phaser.Math.DegToRad(360-this.life), false, 0.02);
+        this.playerLife.arc(400, 740, 40, Phaser.Math.DegToRad(180), Phaser.Math.DegToRad(360-this.life), false, 0.02);
         this.playerLife.strokePath();
         this.playerLife.closePath();
 
