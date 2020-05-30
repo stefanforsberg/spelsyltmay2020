@@ -41,6 +41,19 @@ class Fish extends Phaser.GameObjects.Sprite {
 
         this.respawn();
 
+        var particles = this.scene.add.particles('fishbubble');
+
+        this.emitter = particles.createEmitter({
+            speed: 60,
+            scale: { start: 1, end: 0 },
+            alpha: { start: 1, end: 0 },
+            blendMode: 'NORMAL'
+        });
+
+        this.emitter.startFollow(this, 0, 36);
+
+        
+
         scene.add.existing(this);
     }
 
@@ -62,7 +75,7 @@ class Fish extends Phaser.GameObjects.Sprite {
         this.y = Phaser.Math.Between(-150, -100);
         this.speed = Phaser.Math.FloatBetween(0.5,2);
 
-        this.alpha = 0.8;
+        this.alpha = 1;
 
         if(Phaser.Math.FloatBetween(0,1) > 0.8) {
             console.log("poison fish")
@@ -76,6 +89,10 @@ class Fish extends Phaser.GameObjects.Sprite {
     }
 
     update(players) {
+
+        if(this.alpha <= 0.5) {
+            this.emitter.setVisible(false)
+        }
 
         if(this.canMove) {
             this.y += this.speed;

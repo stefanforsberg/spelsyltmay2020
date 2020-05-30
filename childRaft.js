@@ -47,6 +47,8 @@ class ChildRaft extends Phaser.GameObjects.Container {
         this.add(this.raftLifeGraphics);
         this.add(this.childLifeGraphics);
 
+        this
+
         this.scene.tweens.add({
             targets: [ this ],
             props: {
@@ -59,6 +61,7 @@ class ChildRaft extends Phaser.GameObjects.Container {
         });
 
         this.bringToTop(this.raft);
+        this.bringToTop(this.childLifeGraphics);
 
     }
 
@@ -80,6 +83,16 @@ class ChildRaft extends Phaser.GameObjects.Container {
 
     getBounds() {
         return this.raft.getBounds()
+    }
+
+    getState() {
+
+        return {
+            isBuilt: this.isBuilt, 
+            hasChild: this.hasChild,
+            isChildAlive: this.isChildAlive,
+            name: this.name
+        }
     }
 
     addRaftWaves() {
@@ -121,7 +134,7 @@ class ChildRaft extends Phaser.GameObjects.Container {
         if(this.hasChild) {
             if(this.isChildAlive) {
                 if(this.childLife < 180) {
-                    this.childLife = this.childLife + 5;
+                    this.childLife = this.childLife + 0.02;
                 }
 
                 if(this.childLife >= 180) {
@@ -132,9 +145,9 @@ class ChildRaft extends Phaser.GameObjects.Container {
     
                 this.childLifeGraphics.clear();
     
-                this.childLifeGraphics.lineStyle(10, 0xffffff);
+                this.childLifeGraphics.lineStyle(6, 0xffffff);
                 this.childLifeGraphics.beginPath();
-                this.childLifeGraphics.arc(0, -5, 30, Phaser.Math.DegToRad(180), Phaser.Math.DegToRad(360-this.childLife), false, 0.02);
+                this.childLifeGraphics.arc(0, -20, 30, Phaser.Math.DegToRad(180), Phaser.Math.DegToRad(360-this.childLife), false, 0.02);
                 this.childLifeGraphics.strokePath();
                 this.childLifeGraphics.closePath();
             }
@@ -172,18 +185,12 @@ class ChildRaft extends Phaser.GameObjects.Container {
 
         this.raftRope.beginPath();
 
-        this.raftRope.moveTo(0,0);
+        this.raftRope.moveTo(0,-40);
 
-        if(this.x < playerBounds.x) {
-            this.raftRope.lineTo(this.x-playerBounds.x+playerBounds.width/2, playerBounds.y + playerBounds.height - this.y - 20);
-        } else {
-            this.raftRope.lineTo(playerBounds.x-this.x+playerBounds.width/2, playerBounds.y + playerBounds.height - this.y - 20);
-        }
+        this.raftRope.lineTo(playerBounds.x-this.x+playerBounds.width/2, playerBounds.y + playerBounds.height - this.y - 20);
     
         this.raftRope.closePath();
         this.raftRope.strokePath();
-
-
     }
 
     addChildToRaft() {
@@ -192,67 +199,3 @@ class ChildRaft extends Phaser.GameObjects.Container {
         this.raft.setTexture('childRaftWithChild')
     }
 }
-
-// class Player extends Phaser.GameObjects.Sprite {
-
-//     constructor(scene, x, y, key) {
-//         super(scene, x, y, key);
-
-//         scene.add.existing(this);
-
-//         // this.body.setVelocityY(50)
-
-//         // var graphics = this.add.graphics();
-
-//         // graphics.fillStyle(0xff0000, 1);
-//         // graphics.fillRect(0, 0, 100, 100);
-
-//         // this.body.setVelocityY(-80);
-
-//     }
-
-//     update() {
-
-//         // if(this.canMove) {
-//         //     this.y += 3;
-
-//         //     if(this.y > 1400) {
-//         //         this.y = -100
-//         //     }
-//         // }
-        
-
-//         // // Horizontal movement
-//         // if (this.scene.cursors.left.isDown)
-//         // {
-//         //     this.flipX = true;
-//         //     this.body.setVelocityX(-80);
-//         // }
-//         // else if (this.scene.cursors.right.isDown)
-//         // {
-//         //     this.flipX = false;
-//         //     this.body.setVelocityX(80);
-//         // } else {
-//         //     this.body.setVelocityX(0);
-//         // }
-//         // // Vertical movement
-//         // if (this.scene.cursors.up.isDown)
-//         // {
-//         //     this.flipY = false;
-//         //     this.body.setVelocityY(-80);
-//         // }
-//         // else if (this.scene.cursors.down.isDown)
-//         // {
-//         //     this.flipY = true;
-//         //     this.body.setVelocityY(80);
-//         // }  
-
-//         // if (this.scene.cursors.left.isDown || this.scene.cursors.right.isDown) {
-//         //     this.anims.play('vertical', true);
-//         // } else if (this.scene.cursors.up.isDown || this.scene.cursors.down.isDown) {
-//         //     this.anims.play('horisontal', true);
-//         // } else {
-//         //     this.anims.stop();
-//         // }
-//     }   
-// }

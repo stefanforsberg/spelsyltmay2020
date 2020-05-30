@@ -60,6 +60,7 @@ class SeaScene extends Phaser.Scene {
     }
 
     endGame() {
+        this.children.forEach(c => c.destroy());
         this.player.destroy();
         this.currentWeatherScene.scene.stop();
         this.cameras.main.resetFX();
@@ -96,36 +97,14 @@ class SeaScene extends Phaser.Scene {
         this.crafting.update();
 
         this.currentWeatherScene.update();
-
-        this.updateRaftRopes();
-    }
-
-    updateRaftRopes() {
-
-        // if(this.childrenRafts.length > 0) {
-
-        //     var playerBounds = this.player.getBounds();
-
-        //     this.raftRopes.clear();
-
-        //     this.raftRopes.lineStyle(5, 0xF3F3F3);
-
-        //     this.childrenRafts.forEach(r => {
-        //         this.raftRopes.beginPath();
-        
-        //         this.raftRopes.moveTo(playerBounds.x+playerBounds.width/2, playerBounds.y+playerBounds.height-20);
-        //         this.raftRopes.lineTo(r.x, r.y+20);
-            
-        //         this.raftRopes.closePath();
-        //         this.raftRopes.strokePath();
-        //     });
-        // }
     }
 
     addRafts() {
         this.childrenRafts.push(
             new ChildRaft(this, 310, 1150, 1),
-            new ChildRaft(this, 490, 1150, 2)
+            new ChildRaft(this, 490, 1150, 2),
+            new ChildRaft(this, 630, 1030, 3),
+            new ChildRaft(this, 180, 1030, 4)
         );
     }
 
@@ -162,5 +141,25 @@ class SeaScene extends Phaser.Scene {
         
         this.currentWeatherScene = this.scene.get('StormScene');
         this.player.activateStormScene();
+    }
+
+    switchToShore() {
+        this.scene.stop('StormScene')
+        this.scene.launch('ShoreScene')
+        this.scene.bringToTop('ShoreScene')
+
+        this.tweens.add({
+            targets: [ this.fish, this.fish2, this.wood ],
+            props: {
+                alpha: { value: 0, duration: 5000 },
+            },
+            yoyo: false,
+            repeat: 0,
+            onComplete: function () { this.scene.pause() },
+            onCompleteScope: this,
+            
+        });
+        
+        this.currentWeatherScene = this.scene.get('ShoreScene');
     }
 }

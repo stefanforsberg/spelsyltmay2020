@@ -7,8 +7,7 @@ class StormScene extends Phaser.Scene {
     init() {
         console.log("Init Storm")
 
-        // this.sky = this.add.rectangle(this.cameras.main.width/2, ((this.cameras.main.height-80)/2), this.cameras.main.width, this.cameras.main.height-80, 0x000000);
-        // this.sky.alpha = 0.7;
+        this.seaScene = this.scene.get('SeaScene');
     }
     
     create() {
@@ -17,7 +16,7 @@ class StormScene extends Phaser.Scene {
 
         var particles = this.add.particles('rain');
 
-        particles.createEmitter({
+        this.rainEmitter = particles.createEmitter({
             x: 0, y: 0,
             lifespan: 2000,
             quantity: 4,
@@ -32,46 +31,57 @@ class StormScene extends Phaser.Scene {
 
         var fog = this.add.particles('fog');
 
-        var emitterLeft = fog.createEmitter({
+        this.emitterLeft = fog.createEmitter({
             x: 0, y: 0,
             lifespan: 20000,
-            scale: {min: 1, max: 3 },
-            speedX: { min: 10, max: 30 },
+            scale: {min: 1, max: 4 },
+            speedX: { min: 20, max: 40 },
             gravityY: 1,
             gravityX: 1,
-            frequency: 800,
-            blendMode: 'NORMAL',
+            frequency: 600,
+            blendMode: 'ADD',
             emitZone: { type: 'random', source: new Phaser.Geom.Rectangle(-200, 0, 200, 1300) },
         });
 
-        emitterLeft.setAlpha(function (p, k, t) { 
-            return 0.5 - 2 * Math.abs(t - 0.5); 
+        this.emitterLeft.setAlpha(function (p, k, t) { 
+            return 0.7 - 2 * Math.abs(t - 0.5); 
         });
 
-        var emitterRight = fog.createEmitter({
+        this.emitterRight = fog.createEmitter({
             x: 0, y: 0,
             lifespan: 20000,
-            scale: {min: 1, max: 3 },
-            speedX: { min: -30, max: -10 },
+            scale: {min: 1, max: 4 },
+            speedX: { min: -40, max: -20 },
             gravityY: -1,
             gravityX: 1,
-            frequency: 800,
-            blendMode: 'NORMAL',
+            frequency: 600,
+            blendMode: 'ADD',
             emitZone: { type: 'random', source: new Phaser.Geom.Rectangle(750, 0, 200, 1300) },
         });
 
-        emitterRight.setAlpha(function (p, k, t) { 
-            return 0.5 - 2 * Math.abs(t - 0.5); 
+        this.emitterRight.setAlpha(function (p, k, t) { 
+            return 0.7 - 2 * Math.abs(t - 0.5); 
         });
 
 
         this.time.delayedCall(4000, this.flash, [], this);
 
-        
+        this.time.delayedCall(35000, this.stopClouds, [], this);
+        this.time.delayedCall(55000, this.stopStorm, [], this);
     }
 
     flash() {
         this.cameras.main.flash(1000);
+    }
+
+    stopClouds() {
+        this.emitterLeft.stop();
+        this.emitterRight.stop();
+    }
+
+    stopStorm() {
+        this.rainEmitter.stop();     
+        this.seaScene.switchToShore();         
     }
 
     daybreak() {

@@ -8,6 +8,7 @@ class StartScene extends Phaser.Scene {
         this.load.image('bg', 'assets/bg.png');
         this.load.image('fish', 'assets/fish.png');
         this.load.image('fishPoison', 'assets/fishPoison.png');
+        this.load.image('fishbubble', 'assets/fishbubble.png');
         this.load.image('wood', 'assets/wood.png');
         this.load.image('repairRaft', 'assets/repairRaft.png');
         this.load.image('addRaft', 'assets/addRaft.png');
@@ -19,6 +20,7 @@ class StartScene extends Phaser.Scene {
         this.load.image('rain', 'assets/rain.png');
         this.load.image('fog', 'assets/fog.png');
         this.load.image('shark', 'assets/shark.png');
+        this.load.image('shore', 'assets/shore.png');
     }
 
     create() {
@@ -54,5 +56,6 @@ class StartScene extends Phaser.Scene {
         
         this.scene.get('SeaScene').scene.sleep();
         this.scene.get('ScoreScene').scene.wake();
+
     }
 }

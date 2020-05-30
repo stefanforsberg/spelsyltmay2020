@@ -105,11 +105,11 @@ class Player extends Phaser.GameObjects.Container {
 
     update() {
         if(this.life < 180) {
-            this.life = this.life + 0.05;
+            this.life = this.life + 0.01;
         }
 
         if(this.life >= 180) {
-            this.scene.events.emit("Endgame");
+            this.scene.events.emit("Endgame", {death: true});
         }
 
         this.playerLife.clear();
@@ -129,7 +129,7 @@ class Player extends Phaser.GameObjects.Container {
         }
         
         if(this.raftLife <= 0) {
-            this.scene.events.emit("Endgame");
+            this.scene.events.emit("Endgame", {death: true});
         }
 
         this.raftLifeGraphics.clear();
