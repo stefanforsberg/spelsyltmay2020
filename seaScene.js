@@ -15,6 +15,13 @@ class SeaScene extends Phaser.Scene {
 
         this.isStarted = false;
 
+        this.music = this.sound.add('theme');
+        this.seaSound = this.sound.add('sea', {loop: true, volume: 0.5});
+
+        this.rainSound = this.sound.add('rain', {loop: true, volume: 0.3});
+
+        this.thunderSound = this.sound.add('thunder', {loop: false, volume: 0.5});
+
         this.crafting = new Crafting(this);
     }
 
@@ -55,11 +62,19 @@ class SeaScene extends Phaser.Scene {
         this.crafting.restart();
 
         this.crafting.depth = 1000
+
+        this.music.play();
+        this.seaSound.play();
         
         console.log("finished restart");
     }
 
     endGame() {
+        this.music.stop();
+        this.seaSound.stop();
+        this.thunderSound.stop();
+        this.rainSound.stop();
+
         this.children.forEach(c => c.destroy());
         this.player.destroy();
         this.currentWeatherScene.scene.stop();
@@ -128,6 +143,25 @@ class SeaScene extends Phaser.Scene {
     }
 
     switchToNight() {
+
+        this.tweens.add({
+            targets: this.music,
+            props: {
+                volume: { value: 0.8, duration: 5000 },
+            },
+            yoyo: false,
+            repeat: 0,
+        });
+
+        this.tweens.add({
+            targets: this.seaSound,
+            props: {
+                volume: { value: 0.3, duration: 5000 },
+            },
+            yoyo: false,
+            repeat: 0,
+        });
+
         this.scene.stop('DayScene')
         this.scene.launch('NightScene')
         this.scene.bringToTop('NightScene')
@@ -135,6 +169,21 @@ class SeaScene extends Phaser.Scene {
     }
 
     switchToStorm() {
+
+        this.rainSound.play();
+        this.seaSound.stop();
+
+        this.tweens.add({
+            targets: this.music,
+            props: {
+                volume: { value: 1, duration: 5000 },
+            },
+            yoyo: false,
+            repeat: 0,
+        });
+
+        this.rain
+
         this.scene.stop('NightScene')
         this.scene.launch('StormScene')
         this.scene.bringToTop('StormScene')

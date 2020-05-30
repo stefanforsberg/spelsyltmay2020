@@ -105,7 +105,7 @@ class Player extends Phaser.GameObjects.Container {
 
     update() {
         if(this.life < 180) {
-            this.life = this.life + 0.01;
+            this.life = this.life + 0.05;
         }
 
         if(this.life >= 180) {

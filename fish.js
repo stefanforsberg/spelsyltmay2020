@@ -72,7 +72,7 @@ class Fish extends Phaser.GameObjects.Sprite {
 
     respawn() {
         this.x = Phaser.Math.Between(20, 700);
-        this.y = Phaser.Math.Between(-150, -100);
+        this.y = Phaser.Math.Between(-350, -100);
         this.speed = Phaser.Math.FloatBetween(0.5,2);
 
         this.alpha = 1;

@@ -43,7 +43,6 @@ class ScoreScene extends Phaser.Scene {
 
     updateScore(endgameState) {
 
-        DayScene
         console.log(this.seaScene.currentWeatherScene.sys.config.key);
 
         this.totalScore = 0;

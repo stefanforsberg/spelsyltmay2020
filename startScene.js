@@ -5,6 +5,11 @@ class StartScene extends Phaser.Scene {
     }
     
     preload() {
+
+        this.sky = this.add.rectangle(this.cameras.main.width/2, ((this.cameras.main.height)/2), this.cameras.main.width, this.cameras.main.height, 0x67B2C7);
+
+        this.text = this.add.text(30, 30, 'Loading game...').setFontFamily('Arial').setFontSize(48).setColor('#ffff00');
+
         this.load.image('bg', 'assets/bg.png');
         this.load.image('fish', 'assets/fish.png');
         this.load.image('fishPoison', 'assets/fishPoison.png');
@@ -21,14 +26,35 @@ class StartScene extends Phaser.Scene {
         this.load.image('fog', 'assets/fog.png');
         this.load.image('shark', 'assets/shark.png');
         this.load.image('shore', 'assets/shore.png');
+
+        this.load.audio('theme', [
+            'assets/09.ogg',
+            'assets/09.mp3'
+        ]);
+
+        this.load.audio('sea', [
+            'assets/sea.ogg',
+            'assets/sea.mp3'
+        ]);
+
+        this.load.audio('rain', [
+            'assets/rain.ogg',
+            'assets/rain.mp3'
+        ]);
+
+        this.load.audio('thunder', [
+            'assets/thunder.ogg',
+            'assets/thunder.mp3'
+        ]);
     }
 
     create() {
-        var text = this.add.text(30, 30, 'Start game').setFontFamily('Arial').setFontSize(48).setColor('#ffff00');
+        
+        this.text.setText("Start game")
 
-        text.setInteractive();
+        this.text.setInteractive();
 
-        text.on('pointerdown', this.startGame, this);
+        this.text.on('pointerdown', this.startGame, this);
 
         this.scene.get('SeaScene').events.on('EatFish', () => {console.log("score eats fish")}, this);
 

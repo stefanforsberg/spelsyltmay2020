@@ -66,11 +66,16 @@ class StormScene extends Phaser.Scene {
 
         this.time.delayedCall(4000, this.flash, [], this);
 
+        this.time.delayedCall(20000, this.flash, [], this);
+
+        this.time.delayedCall(35000, this.flash, [], this);
+
         this.time.delayedCall(35000, this.stopClouds, [], this);
         this.time.delayedCall(55000, this.stopStorm, [], this);
     }
 
     flash() {
+        this.seaScene.thunderSound.play();
         this.cameras.main.flash(1000);
     }
 

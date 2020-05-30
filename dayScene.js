@@ -17,9 +17,9 @@ class DayScene extends Phaser.Scene {
 
         console.log("Create Day")
 
-        this.time.delayedCall(20000, this.nightfall, [], this);
+        this.time.delayedCall(40000, this.nightfall, [], this);
 
-        this.time.delayedCall(0, this.seaScene.addChild, [], this.seaScene);
+        this.time.delayedCall(10000, this.seaScene.addChild, [], this.seaScene);
 
         this.time.delayedCall(30000, this.seaScene.addChild, [], this.seaScene);
     }
@@ -28,7 +28,7 @@ class DayScene extends Phaser.Scene {
         this.tweens.add({
             targets: [ this.sky ],
             props: {
-                alpha : { value: 0.7, duration: 40000, ease: 'Power.Easein' }
+                alpha : { value: 0.7, duration: 20000, ease: 'Power.Easein' }
             },
             repeat: 0,
             yoyo: false,
