@@ -23,6 +23,31 @@ class SeaScene extends Phaser.Scene {
         this.thunderSound = this.sound.add('thunder', {loop: false, volume: 0.5});
 
         this.crafting = new Crafting(this);
+
+        this.gameState = {
+            normal: {
+                poisonFishChange: 0.2,
+                woodAmount: 5,
+                childRaftLifeDecrease: 0.02,
+                childLifeDecrease: 0.01,
+                playerRaftLifeDecrease: 0.03,
+                playerLifeDecrease: 0.03,
+                repairRaftAmount: 30,
+                scoreMultiplier: 1
+            },
+            hard: {
+                poisonFishChange: 0.4,
+                woodAmount: 3,
+                childRaftLifeDecrease: 0.05,
+                childLifeDecrease: 0.03,
+                playerRaftLifeDecrease: 0.05,
+                playerLifeDecrease: 0.05,
+                repairRaftAmount: 20,
+                scoreMultiplier: 1.4
+            }
+        }
+
+        this.gameState.current = this.gameState.normal;
     }
 
     restart() {

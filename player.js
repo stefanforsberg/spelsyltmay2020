@@ -96,7 +96,7 @@ class Player extends Phaser.GameObjects.Container {
     }
 
     repairRaft() {
-        this.raftLife += 20;
+        this.raftLife += this.scene.gameState.current.repairRaftAmount;
 
         if(this.raftLife > 180) {
             this.raftLife = 180;
@@ -105,7 +105,7 @@ class Player extends Phaser.GameObjects.Container {
 
     update() {
         if(this.life < 180) {
-            this.life = this.life + 0.05;
+            this.life = this.life + this.scene.gameState.current.playerLifeDecrease;
         }
 
         if(this.life >= 180) {
@@ -130,7 +130,7 @@ class Player extends Phaser.GameObjects.Container {
 
     updateRaft() {
         if(this.raftLife > 0) {
-            this.raftLife -= 0.05;
+            this.raftLife -= this.scene.gameState.current.playerRaftLifeDecrease;
         }
         
         if(this.raftLife <= 0) {

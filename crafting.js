@@ -35,12 +35,10 @@ class Crafting extends Phaser.GameObjects.Container {
     }
 
     buildRaft(e) {
-        e.build();
-        // console.log("build: " + this.wood)
-        // if(this.wood >=5) {
-        //     this.wood-=5;
-        //     e.build();
-        // }
+        if(this.wood >= 1) {
+            this.wood-=1;
+            e.build();
+        }
     }
 
     repairRaft(e) {
@@ -51,7 +49,7 @@ class Crafting extends Phaser.GameObjects.Container {
     }
 
     fetchWood() {
-        this.wood+=3;
+        this.wood+= this.scene.gameState.current.woodAmount;
     }
 
     update() {

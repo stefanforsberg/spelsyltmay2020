@@ -74,7 +74,7 @@ class ChildRaft extends Phaser.GameObjects.Container {
     }
 
     repairRaft() {
-        this.raftLife += 20;
+        this.raftLife += this.scene.gameState.current.repairRaftAmount;
 
         if(this.raftLife > 100) {
             this.raftLife = 100;
@@ -134,7 +134,7 @@ class ChildRaft extends Phaser.GameObjects.Container {
         if(this.hasChild) {
             if(this.isChildAlive) {
                 if(this.childLife < 180) {
-                    this.childLife = this.childLife + 0.02;
+                    this.childLife = this.childLife + this.scene.gameState.current.childLifeDecrease;
                 }
 
                 if(this.childLife >= 180) {
@@ -170,7 +170,7 @@ class ChildRaft extends Phaser.GameObjects.Container {
     updateRaft(player) {
 
         if(this.raftLife > 0) {
-            this.raftLife -= 0.05;
+            this.raftLife -= this.scene.gameState.current.childRaftLifeDecrease;
         }
 
         if(this.raftLife <= 0) {
