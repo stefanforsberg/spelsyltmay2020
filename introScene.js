@@ -1,15 +1,9 @@
 class IntroScene extends Phaser.Scene {
     constructor() {
-        console.log("IntroScene")
         super({ key: 'IntroScene' });
     }
 
     init() {
-        console.log("Init Intro")
-
-        // this.seaScene = this.scene.get('SeaScene');
-
-        // this.sky.alpha = 0.0;
     }
     
     create() {
@@ -23,10 +17,6 @@ class IntroScene extends Phaser.Scene {
         var bg = this.add.rectangle(this.cameras.main.width/2,this.cameras.main.height/2, 700, 670, 0xF5F4F0);
         bg.alpha = 0;
 
-
-
-
-
         this.tweens.add({
             targets: bg,
             props: {
@@ -37,18 +27,6 @@ class IntroScene extends Phaser.Scene {
             onComplete: this.intro01,
             onCompleteScope: this
         });
-
-        
-
-
-
-        // console.log("Create Day")
-
-        // this.time.delayedCall(40000, this.nightfall, [], this);
-
-        // this.time.delayedCall(10000, this.seaScene.addChild, [], this.seaScene);
-
-        // this.time.delayedCall(40000, this.seaScene.addChild, [], this.seaScene);
     }
 
     intro01() {
@@ -94,13 +72,9 @@ class IntroScene extends Phaser.Scene {
          }, [], this);
 
          this.time.delayedCall(8000, this.intro02, [], this);
-
-
-        
     }
 
     intro02() {
-        console.log("intro 2")
         var intr02 = this.add.image(this.cameras.main.width/2, this.cameras.main.height/2, 'intro02');
         intr02.alpha = 0;
 

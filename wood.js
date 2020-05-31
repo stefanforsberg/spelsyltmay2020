@@ -12,8 +12,6 @@ class Wood extends Phaser.GameObjects.Sprite {
 
         this.on('dragstart', function (pointer) {
             this.canMove = false;
-            this.setTint(Math.random() * 0xffffff);
-
         });
 
         this.on('drag', function (pointer, dragX, dragY) {
@@ -23,7 +21,6 @@ class Wood extends Phaser.GameObjects.Sprite {
 
         this.on('dragend', function (pointer) {
             this.canMove = true;
-            this.clearTint();
         });
 
         this.scene = scene;

@@ -1,16 +1,9 @@
 class SeaScene extends Phaser.Scene {
     constructor(e) {
-        console.log("sea")
         super({ key: 'SeaScene' });
     }
 
-    preload() {
-        console.log("preloading")
-    }
-
     create() {
-        console.log("create")
-
         this.events.on('Endgame', this.endGame, this);
 
         this.isStarted = false;
@@ -97,8 +90,6 @@ class SeaScene extends Phaser.Scene {
 
         
         this.seaSound.play();
-        
-        console.log("finished restart");
     }
 
     endGame() {
@@ -118,14 +109,12 @@ class SeaScene extends Phaser.Scene {
         this.bg1.y+=0.5;
         
         if(this.bg1.y > 700+1300) {
-            console.log("moving 1")
             this.bg1.y = -700
         }
 
         this.bg2.y+=0.5;
 
         if(this.bg2.y > 700+1300) {
-            console.log("moving 2")
             this.bg2.y = -700
         }
         
@@ -159,7 +148,6 @@ class SeaScene extends Phaser.Scene {
     
 
     shake() {
-        console.log("shak")
         this.cameras.main.shake(300);
     }
 

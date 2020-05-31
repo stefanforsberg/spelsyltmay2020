@@ -1,6 +1,5 @@
 class StartScene extends Phaser.Scene {
     constructor() {
-        console.log("Start")
         super({ key: 'StartScene' });
     }
     
@@ -115,7 +114,6 @@ class StartScene extends Phaser.Scene {
     }
 
     startGame(hardMode) {
-        console.log("starting game")
         this.music.volume = 1;
         this.music.play();
 

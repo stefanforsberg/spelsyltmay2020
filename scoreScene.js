@@ -1,11 +1,9 @@
 class ScoreScene extends Phaser.Scene {
     constructor() {
-        console.log("ScoreScene")
         super({ key: 'ScoreScene' });
     }
 
     init() {
-        console.log('Score scene init')
         this.seaScene = this.scene.get('SeaScene');
         this.seaScene.events.on('EatFish', () => this.fishEaten+=1, this);
         this.seaScene.events.on('FetchWood', () => this.woodCollected+=1, this);
@@ -44,9 +42,6 @@ class ScoreScene extends Phaser.Scene {
     }
 
     updateScore(endgameState) {
-
-        console.log(this.seaScene.currentWeatherScene.sys.config.key);
-
         this.totalScore = 0;
 
         if(endgameState && endgameState.death) {

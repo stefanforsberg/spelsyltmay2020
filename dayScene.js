@@ -1,12 +1,9 @@
 class DayScene extends Phaser.Scene {
     constructor() {
-        console.log("DayScene")
         super({ key: 'DayScene' });
     }
 
     init() {
-        console.log("Init Day")
-
         this.seaScene = this.scene.get('SeaScene');
 
         this.sky = this.add.rectangle(this.cameras.main.width/2, ((this.cameras.main.height-80)/2), this.cameras.main.width, this.cameras.main.height-80, 0x000000);
@@ -14,9 +11,6 @@ class DayScene extends Phaser.Scene {
     }
     
     create() {
-
-        console.log("Create Day")
-
         this.time.delayedCall(40000, this.nightfall, [], this);
 
         this.time.delayedCall(10000, this.seaScene.addChild, [], this.seaScene);

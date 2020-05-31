@@ -6,8 +6,6 @@ class Fish extends Phaser.GameObjects.Sprite {
 
         this.scene = scene;
 
-        console.log()
-
         this.setInteractive();
 
         this.canMove = true;
@@ -73,16 +71,14 @@ class Fish extends Phaser.GameObjects.Sprite {
     respawn() {
         this.x = Phaser.Math.Between(20, 700);
         this.y = Phaser.Math.Between(-150, -100);
-        this.speed = Phaser.Math.FloatBetween(0.25,1.75);
+        this.speed = Phaser.Math.FloatBetween(1,1.75);
 
         this.alpha = 1;
 
         if(Phaser.Math.FloatBetween(0,1) > (1-this.scene.gameState.current.poisonFishChange)) {
-            console.log("poison fish")
             this.setTexture('fishPoison');
             this.eatValue = -20;
         } else {
-            console.log("normal fish")
             this.setTexture('fish');
             this.eatValue = 20;
         }

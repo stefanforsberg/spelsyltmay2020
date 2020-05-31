@@ -1,19 +1,13 @@
 class StormScene extends Phaser.Scene {
     constructor() {
-        console.log("StormScene")
         super({ key: 'StormScene' });
     }
 
     init() {
-        console.log("Init Storm")
-
         this.seaScene = this.scene.get('SeaScene');
     }
     
     create() {
-
-        console.log("Create Storm")
-
         var particles = this.add.particles('rain');
 
         this.rainEmitter = particles.createEmitter({

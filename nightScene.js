@@ -1,21 +1,15 @@
 class NightScene extends Phaser.Scene {
     constructor() {
-        console.log("NightScene")
         super({ key: 'NightScene' });
     }
 
     init() {
-        console.log("Init Night")
-
         this.sky = this.add.rectangle(this.cameras.main.width/2, ((this.cameras.main.height-80)/2), this.cameras.main.width, this.cameras.main.height-80, 0x000000);
         this.sky.alpha = 0.7;
         this.sky.setDepth(100);
     }
     
     create() {
-
-        console.log("Create Night")
-
         this.seaScene = this.scene.get('SeaScene');
 
         this.player = this.seaScene.player;
