@@ -8,7 +8,7 @@ class StartScene extends Phaser.Scene {
 
         this.sky = this.add.rectangle(this.cameras.main.width/2, ((this.cameras.main.height)/2), this.cameras.main.width, this.cameras.main.height, 0x67B2C7);
 
-        this.text = this.add.text(30, 30, 'Loading game...').setFontFamily('Arial').setFontSize(48).setColor('#ffff00');
+        this.startGameButton = this.add.text(30, 30, 'Loading game...').setFontFamily('Arial').setFontSize(48).setColor('#ffff00');
 
         this.load.image('bg', 'assets/bg.png');
         this.load.image('fish', 'assets/fish.png');
@@ -26,6 +26,7 @@ class StartScene extends Phaser.Scene {
         this.load.image('fog', 'assets/fog.png');
         this.load.image('shark', 'assets/shark.png');
         this.load.image('shore', 'assets/shore.png');
+        this.load.image('help', 'assets/help.png');
 
         this.load.audio('theme', [
             'assets/09.ogg',
@@ -50,16 +51,23 @@ class StartScene extends Phaser.Scene {
 
     create() {
         
-        this.text.setText("Start game")
+        this.startGameButton.setText("Start game")
 
-        this.text.setInteractive();
+        this.startGameButton.setInteractive();
 
-        this.text.on('pointerdown', this.startGame, this);
+        this.startGameButton.on('pointerdown', this.startGame, this);
 
-        this.scene.get('SeaScene').events.on('EatFish', () => {console.log("score eats fish")}, this);
+        this.helpImage = this.add.image(this.cameras.main.width/2, this.cameras.main.height/2,'help')
+        this.helpImage.visible = false;
+        this.helpImage.setInteractive();
+
+        this.helpImage.on('pointerdown', this.hideHelp, this);
+
+        this.helpButton = this.add.text(30, 130, 'How to play').setFontFamily('Arial').setFontSize(48).setColor('#ffff00');
+        this.helpButton.setInteractive();
+        this.helpButton.on('pointerdown', this.showHelp, this);
 
         this.scene.get('ScoreScene').events.on('StartGame', this.startGame, this);
-
         this.scene.get('SeaScene').events.on('Endgame', this.endGame, this);
 
         this.scene.launch('SeaScene')
@@ -67,6 +75,18 @@ class StartScene extends Phaser.Scene {
 
         this.scene.get('ScoreScene').scene.sleep();
         this.scene.get('SeaScene').scene.sleep();
+    }
+
+    showHelp() {
+        this.startGameButton.visible = false;
+        this.helpButton.visible = false;
+        this.helpImage.visible = true;
+    }
+
+    hideHelp() {
+        this.startGameButton.visible = true;
+        this.helpButton.visible = true;
+        this.helpImage.visible = false;
     }
 
     startGame() {

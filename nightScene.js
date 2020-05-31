@@ -30,6 +30,8 @@ class NightScene extends Phaser.Scene {
         this.time.delayedCall(30000, this.addShark, [], this);
         this.time.delayedCall(35000, this.addShark, [], this);
         this.time.delayedCall(40000, this.addShark, [], this);
+
+        this.time.delayedCall(30000, this.seaScene.addChild, [], this.seaScene);
     }
 
     daybreak() {

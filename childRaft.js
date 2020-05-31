@@ -155,12 +155,6 @@ class ChildRaft extends Phaser.GameObjects.Container {
                 this.childLifeGraphics.fillRect(-42, -40, ((180-this.childLife)/180)*84, 13);
         
                 this.childLifeGraphics.strokeRect(-42, -40, ((180-this.childLife)/180)*84, 13);
-    
-                // this.childLifeGraphics.lineStyle(6, 0xffffff);
-                // this.childLifeGraphics.beginPath();
-                // this.childLifeGraphics.arc(0, -20, 30, Phaser.Math.DegToRad(180), Phaser.Math.DegToRad(360-this.childLife), false, 0.02);
-                // this.childLifeGraphics.strokePath();
-                // this.childLifeGraphics.closePath();
             }
         } else {
             children.filter(c => c.canBePlacedOnRaft()).forEach(child => {
@@ -183,11 +177,6 @@ class ChildRaft extends Phaser.GameObjects.Container {
             this.destroy();
         }
         
-        // this.raftLifeGraphics.clear();
-
-        // this.raftLifeGraphics.fillStyle(0x0000ff, 1);
-        // this.raftLifeGraphics.fillRect(-50, 50, this.raftLife, 10);
-
         this.raftLifeGraphics.clear();
 
         this.raftLifeGraphics.lineStyle(1, 0x3B2A20, 3);

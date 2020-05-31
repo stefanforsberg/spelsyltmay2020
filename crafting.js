@@ -9,7 +9,7 @@ class Crafting extends Phaser.GameObjects.Container {
 
         var background = scene.add.graphics();
 
-        background.fillStyle(0xff00ff, 1);
+        background.fillStyle(0x3B6672, 1);
         background.fillRect(0, 0, scene.cameras.main.width, 80);
 
         this.woodText = scene.add.text(100, 15, '0').setFontFamily('Arial').setFontSize(48).setColor('#ffffff');

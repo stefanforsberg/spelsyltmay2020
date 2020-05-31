@@ -72,6 +72,8 @@ class StormScene extends Phaser.Scene {
 
         this.time.delayedCall(35000, this.stopClouds, [], this);
         this.time.delayedCall(55000, this.stopStorm, [], this);
+
+        this.time.delayedCall(20000, this.seaScene.addChild, [], this.seaScene);
     }
 
     flash() {
