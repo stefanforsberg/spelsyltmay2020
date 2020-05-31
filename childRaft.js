@@ -144,12 +144,23 @@ class ChildRaft extends Phaser.GameObjects.Container {
                 }
     
                 this.childLifeGraphics.clear();
+
+                this.childLifeGraphics.lineStyle(1, 0x1D5608, 3);
+                this.childLifeGraphics.strokeRect(-42, -40, 84, 13);
+        
+                this.childLifeGraphics.fillStyle(0x1D5608, 0.4);
+                this.childLifeGraphics.fillRect(-42, -40, 84, 13);
+        
+                this.childLifeGraphics.fillStyle(0x5AFF19, 1);
+                this.childLifeGraphics.fillRect(-42, -40, ((180-this.childLife)/180)*84, 13);
+        
+                this.childLifeGraphics.strokeRect(-42, -40, ((180-this.childLife)/180)*84, 13);
     
-                this.childLifeGraphics.lineStyle(6, 0xffffff);
-                this.childLifeGraphics.beginPath();
-                this.childLifeGraphics.arc(0, -20, 30, Phaser.Math.DegToRad(180), Phaser.Math.DegToRad(360-this.childLife), false, 0.02);
-                this.childLifeGraphics.strokePath();
-                this.childLifeGraphics.closePath();
+                // this.childLifeGraphics.lineStyle(6, 0xffffff);
+                // this.childLifeGraphics.beginPath();
+                // this.childLifeGraphics.arc(0, -20, 30, Phaser.Math.DegToRad(180), Phaser.Math.DegToRad(360-this.childLife), false, 0.02);
+                // this.childLifeGraphics.strokePath();
+                // this.childLifeGraphics.closePath();
             }
         } else {
             children.filter(c => c.canBePlacedOnRaft()).forEach(child => {
@@ -172,10 +183,24 @@ class ChildRaft extends Phaser.GameObjects.Container {
             this.destroy();
         }
         
+        // this.raftLifeGraphics.clear();
+
+        // this.raftLifeGraphics.fillStyle(0x0000ff, 1);
+        // this.raftLifeGraphics.fillRect(-50, 50, this.raftLife, 10);
+
         this.raftLifeGraphics.clear();
 
-        this.raftLifeGraphics.fillStyle(0x0000ff, 1);
-        this.raftLifeGraphics.fillRect(-50, 50, this.raftLife, 10);
+        this.raftLifeGraphics.lineStyle(1, 0x3B2A20, 3);
+        this.raftLifeGraphics.strokeRect(-53, 50, 100, 13);
+
+        this.raftLifeGraphics.fillStyle(0x3B2A20, 0.4);
+        this.raftLifeGraphics.fillRect(-53, 50, 100, 13);
+
+        this.raftLifeGraphics.fillStyle(0xC69669, 1);
+        this.raftLifeGraphics.fillRect(-53, 50, this.raftLife, 13);
+
+        this.raftLifeGraphics.strokeRect(-53, 50, this.raftLife, 13);
+
 
         var playerBounds = player.getBounds();
 

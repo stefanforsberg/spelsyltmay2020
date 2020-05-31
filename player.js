@@ -114,11 +114,16 @@ class Player extends Phaser.GameObjects.Container {
 
         this.playerLife.clear();
 
-        this.playerLife.lineStyle(10, 0xffffff);
-        this.playerLife.beginPath();
-        this.playerLife.arc(400, 740, 40, Phaser.Math.DegToRad(180), Phaser.Math.DegToRad(360-this.life), false, 0.02);
-        this.playerLife.strokePath();
-        this.playerLife.closePath();
+        this.playerLife.lineStyle(1, 0x1D5608, 3);
+        this.playerLife.strokeRect(330, 697, 140, 17);
+
+        this.playerLife.fillStyle(0x1D5608, 0.4);
+        this.playerLife.fillRect(330, 697, 140, 17);
+
+        this.playerLife.fillStyle(0x5AFF19, 1);
+        this.playerLife.fillRect(330, 697, ((180-this.life)/180)*140, 17);
+
+        this.playerLife.strokeRect(330, 697, ((180-this.life)/180)*140, 17);
 
         this.updateRaft();
     }
@@ -134,8 +139,16 @@ class Player extends Phaser.GameObjects.Container {
 
         this.raftLifeGraphics.clear();
 
-        this.raftLifeGraphics.fillStyle(0x0000ff, 1);
-        this.raftLifeGraphics.fillRect(310, 930, this.raftLife, 20);
+        this.raftLifeGraphics.lineStyle(1, 0x3B2A20, 3);
+        this.raftLifeGraphics.strokeRect(305, 930, 180, 17);
+
+        this.raftLifeGraphics.fillStyle(0x3B2A20, 0.4);
+        this.raftLifeGraphics.fillRect(305, 930, 180, 17);
+
+        this.raftLifeGraphics.fillStyle(0xC69669, 1);
+        this.raftLifeGraphics.fillRect(305, 930, this.raftLife, 17);
+
+        this.raftLifeGraphics.strokeRect(305, 930, this.raftLife, 17);
     }
 
     activateStormScene() {
