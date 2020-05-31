@@ -26,6 +26,10 @@ class StartScene extends Phaser.Scene {
         this.load.image('shark', 'assets/shark.png');
         this.load.image('shore', 'assets/shore.png');
         this.load.image('help', 'assets/help.png');
+        this.load.image('intro01', 'assets/intro01.png');
+        this.load.image('intro02', 'assets/intro02.png');
+        this.load.image('intro03', 'assets/intro03.png');
+
 
         this.load.audio('theme', [
             'assets/09.ogg',
@@ -64,6 +68,10 @@ class StartScene extends Phaser.Scene {
         this.startHardGameButton.setInteractive();
         this.startHardGameButton.on('pointerdown', () => {this.startGame(true) }, this);
 
+        this.introButton = this.add.rectangle(370,840,380,70, "#ffffff", 0)
+        this.introButton.setInteractive();
+        this.introButton.on('pointerdown', this.showIntro, this);
+
         this.helpButton = this.add.rectangle(370,940,380,70, "#ffffff", 0)
         this.helpButton.setInteractive();
         this.helpButton.on('pointerdown', this.showHelp, this);
@@ -94,6 +102,17 @@ class StartScene extends Phaser.Scene {
 
     hideHelp() {
         this.helpImage.visible = false;
+    }
+
+    showIntro() {
+        this.scene.sleep();
+        this.scene.launch('IntroScene')
+    }
+
+    hideIntro() {
+        console.log(this);
+        this.scene.wake();
+        this.scene.bringToTop();
     }
 
     startGame(hardMode) {

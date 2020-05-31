@@ -1,5 +1,5 @@
 class ChildRaft extends Phaser.GameObjects.Container {
-    constructor(scene, x, y, i) {
+    constructor(scene, x, y, name) {
 
         super(scene, x, y);
 
@@ -8,7 +8,7 @@ class ChildRaft extends Phaser.GameObjects.Container {
         this.hasChild = false;
         this.isChildAlive = false;
 
-        this.name = "ChildRaft" + i;
+        this.name = name;
 
         this.raftRope = this.scene.add.graphics();
 

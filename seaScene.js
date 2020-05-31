@@ -28,7 +28,7 @@ class SeaScene extends Phaser.Scene {
                 poisonFishChange: 0.2,
                 woodAmount: 3,
                 childRaftLifeDecrease: 0.01,
-                childLifeDecrease: 2,
+                childLifeDecrease: 0.02,
                 playerRaftLifeDecrease: 0.03,
                 playerLifeDecrease: 0.02,
                 repairRaftAmount: 30,
@@ -149,10 +149,10 @@ class SeaScene extends Phaser.Scene {
 
     addRafts() {
         this.childrenRafts.push(
-            new ChildRaft(this, 310, 1150, 1),
-            new ChildRaft(this, 490, 1150, 2),
-            new ChildRaft(this, 630, 1030, 3),
-            new ChildRaft(this, 180, 1030, 4)
+            new ChildRaft(this, 310, 1150, "Leij"),
+            new ChildRaft(this, 490, 1150, "Keishur"),
+            new ChildRaft(this, 630, 1030, "Bah-ban"),
+            new ChildRaft(this, 180, 1030, "Rizkla")
         );
     }
 

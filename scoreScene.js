@@ -82,13 +82,13 @@ class ScoreScene extends Phaser.Scene {
     getScoreForChild(childState) {
         
         if(!childState.isBuilt) {
-            return {score: 0, text: `Didn't build raft for ${childState.name}`}
+            return {score: 0, text: `No raft for ${childState.name}`}
         } else {
             if(!childState.hasChild) {
-                return {score: 10, text: `Built raft for ${childState.name} but didn't save them`}
+                return {score: 10, text: `Built raft for ${childState.name} but didn't rescue`}
             } else {
                 if(!childState.isChildAlive) {
-                    return {score: 20, text: `Built raft for ${childState.name} but couldn't keep them safe`}
+                    return {score: 20, text: `Built raft for ${childState.name} but they died`}
                 } else {
                     return {score: 30, text: `You saved ${childState.name}`}
                 }
