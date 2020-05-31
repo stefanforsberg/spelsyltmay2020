@@ -105,14 +105,13 @@ class StartScene extends Phaser.Scene {
     }
 
     showIntro() {
-        this.scene.sleep();
-        this.scene.launch('IntroScene')
+        this.scene.get('IntroScene').scene.start();
+        // this.scene.launch('IntroScene')
     }
 
     hideIntro() {
-        console.log(this);
+        this.scene.get('IntroScene').scene.stop();
         this.scene.wake();
-        this.scene.bringToTop();
     }
 
     startGame(hardMode) {
