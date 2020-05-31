@@ -27,8 +27,8 @@ class SeaScene extends Phaser.Scene {
             normal: {
                 poisonFishChange: 0.2,
                 woodAmount: 3,
-                childRaftLifeDecrease: 0.02,
-                childLifeDecrease: 0.01,
+                childRaftLifeDecrease: 0.01,
+                childLifeDecrease: 2,
                 playerRaftLifeDecrease: 0.03,
                 playerLifeDecrease: 0.02,
                 repairRaftAmount: 30,

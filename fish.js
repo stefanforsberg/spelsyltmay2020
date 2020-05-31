@@ -24,10 +24,8 @@ class Fish extends Phaser.GameObjects.Sprite {
         });
 
         this.on('drag', function (pointer, dragX, dragY) {
-
             this.x = dragX;
             this.y = dragY;
-
         });
 
         this.on('dragend', function (pointer) {
@@ -52,17 +50,19 @@ class Fish extends Phaser.GameObjects.Sprite {
 
         this.emitter.startFollow(this, 0, 36);
 
-        
-
         scene.add.existing(this);
     }
 
     setTween() {
+
+        if(this.tween) {
+            this.tween.remove();
+        }
+
         this.tween = this.scene.tweens.add({
             targets: this,
             props: {
                 x: { value: `+=30`, ease: 'Sine.InOut' },
-                angle: { value: `+=2`, ease: 'Sine.InOut' }
             },
             duration: 2000,
             yoyo: true,
@@ -72,8 +72,8 @@ class Fish extends Phaser.GameObjects.Sprite {
 
     respawn() {
         this.x = Phaser.Math.Between(20, 700);
-        this.y = Phaser.Math.Between(-350, -100);
-        this.speed = Phaser.Math.FloatBetween(0.5,2);
+        this.y = Phaser.Math.Between(-150, -100);
+        this.speed = Phaser.Math.FloatBetween(0.25,1.75);
 
         this.alpha = 1;
 

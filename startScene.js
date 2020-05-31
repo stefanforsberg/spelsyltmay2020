@@ -103,7 +103,9 @@ class StartScene extends Phaser.Scene {
 
         this.scene.get('SeaScene').setMode(hardMode);
 
+        this.scene.pause();
         this.scene.setVisible(false);
+
         this.scene.bringToTop('SeaScene')
         this.scene.get('SeaScene').restart();
         this.scene.get('ScoreScene').restart();
@@ -112,6 +114,8 @@ class StartScene extends Phaser.Scene {
 
     endGame() {
         
+        this.scene.resume();
+
         this.tweens.add({
             targets:  this.music,
             volume:   0,

@@ -137,23 +137,26 @@ class ChildRaft extends Phaser.GameObjects.Container {
                     this.childLife = this.childLife + this.scene.gameState.current.childLifeDecrease;
                 }
 
+                this.childLifeGraphics.clear();
+
                 if(this.childLife >= 180) {
                     this.isChildAlive = false;
                     this.raft.setTexture('childRaftChildDead')
+                    
+                } else {
+                    this.childLifeGraphics.lineStyle(1, 0x1D5608, 3);
+                    this.childLifeGraphics.strokeRect(-42, -40, 84, 13);
+            
+                    this.childLifeGraphics.fillStyle(0x1D5608, 0.4);
+                    this.childLifeGraphics.fillRect(-42, -40, 84, 13);
+            
+                    this.childLifeGraphics.fillStyle(0x5AFF19, 1);
+                    this.childLifeGraphics.fillRect(-42, -40, ((180-this.childLife)/180)*84, 13);
+            
+                    this.childLifeGraphics.strokeRect(-42, -40, ((180-this.childLife)/180)*84, 13);
                 }
     
-                this.childLifeGraphics.clear();
 
-                this.childLifeGraphics.lineStyle(1, 0x1D5608, 3);
-                this.childLifeGraphics.strokeRect(-42, -40, 84, 13);
-        
-                this.childLifeGraphics.fillStyle(0x1D5608, 0.4);
-                this.childLifeGraphics.fillRect(-42, -40, 84, 13);
-        
-                this.childLifeGraphics.fillStyle(0x5AFF19, 1);
-                this.childLifeGraphics.fillRect(-42, -40, ((180-this.childLife)/180)*84, 13);
-        
-                this.childLifeGraphics.strokeRect(-42, -40, ((180-this.childLife)/180)*84, 13);
             }
         } else {
             children.filter(c => c.canBePlacedOnRaft()).forEach(child => {
