@@ -129,6 +129,11 @@ class Player extends Phaser.GameObjects.Container {
     }
 
     updateRaft() {
+
+        if(!this.active) {
+            return;
+        }
+
         if(this.raftLife > 0) {
             this.raftLife -= this.scene.gameState.current.playerRaftLifeDecrease;
         }

@@ -12,22 +12,24 @@ class ScoreScene extends Phaser.Scene {
 
         this.seaScene.events.on('Endgame', this.updateScore, this);
 
-        var text = this.add.text(30, 800, 'Start game').setFontFamily('Arial').setFontSize(28).setColor('#ffff00');
+        var text = this.add.text(30, 800, 'Back to menu').setFontFamily('Arial').setFontSize(28).setColor('#2B4C54');
         text.setInteractive();
-        text.on('pointerdown', ()=> { this.events.emit('StartGame')}, this);
+        text.on('pointerdown', ()=> { this.events.emit('BackToMenu')}, this);
 
-        this.playerScore = this.add.text(30, 30, 'Score').setFontFamily('Arial').setFontSize(28).setColor('#ffff00');
+        this.playerScore = this.add.text(30, 30, 'Score').setFontFamily('Arial').setFontSize(28).setColor('#2B4C54');
 
-        this.fishScore = this.add.text(30, 100, 'Score').setFontFamily('Arial').setFontSize(28).setColor('#ffff00');
+        this.fishScore = this.add.text(30, 100, 'Score').setFontFamily('Arial').setFontSize(28).setColor('#2B4C54');
 
-        this.woodScore = this.add.text(30, 140, 'Score').setFontFamily('Arial').setFontSize(28).setColor('#ffff00');
+        this.woodScore = this.add.text(30, 140, 'Score').setFontFamily('Arial').setFontSize(28).setColor('#2B4C54');
 
-        this.childScoreText1 = this.add.text(30, 200, 'Score').setFontFamily('Arial').setFontSize(28).setColor('#ffff00');
-        this.childScoreText2 = this.add.text(30, 250, 'Score').setFontFamily('Arial').setFontSize(28).setColor('#ffff00');
-        this.childScoreText3 = this.add.text(30, 300, 'Score').setFontFamily('Arial').setFontSize(28).setColor('#ffff00');
-        this.childScoreText4 = this.add.text(30, 350, 'Score').setFontFamily('Arial').setFontSize(28).setColor('#ffff00');
+        this.childScoreText1 = this.add.text(30, 200, 'Score').setFontFamily('Arial').setFontSize(28).setColor('#2B4C54');
+        this.childScoreText2 = this.add.text(30, 250, 'Score').setFontFamily('Arial').setFontSize(28).setColor('#2B4C54');
+        this.childScoreText3 = this.add.text(30, 300, 'Score').setFontFamily('Arial').setFontSize(28).setColor('#2B4C54');
+        this.childScoreText4 = this.add.text(30, 350, 'Score').setFontFamily('Arial').setFontSize(28).setColor('#2B4C54');
 
-        this.totalScoreText = this.add.text(30, 600, 'Score').setFontFamily('Arial').setFontSize(28).setColor('#ffff00');
+        this.difficultiScoreText = this.add.text(30, 400, 'Score').setFontFamily('Arial').setFontSize(28).setColor('#2B4C54');
+
+        this.totalScoreText = this.add.text(30, 600, 'Score').setFontFamily('Arial').setFontSize(28).setColor('#2B4C54');
 
     }
     
@@ -48,30 +50,31 @@ class ScoreScene extends Phaser.Scene {
         this.totalScore = 0;
 
         if(endgameState && endgameState.death) {
-            this.playerScore.setText("You were lost at sea (0)")
+            this.playerScore.setText("You were lost at sea: 0 points")
         } else {
             this.totalScore += 50;
-            this.playerScore.setText("You survived to shore (50)")
+            this.playerScore.setText("You survived to shore: 50 points")
         }
-
-        // if(this.seaScene.currentWeatherScene.sys.config.key === "DayScene") {
-
-        // }
 
         var childScoreTexts = [this.childScoreText1,this.childScoreText2,this.childScoreText3,this.childScoreText4];
 
         for(var i = 0; i<childScoreTexts.length; i++) {
             var childScore = this.getScoreForChild(this.seaScene.childrenRafts[i].getState());
-            childScoreTexts[i].setText(`${childScore.text} (${childScore.score})`);    
+            childScoreTexts[i].setText(`${childScore.text}: ${childScore.score} points`);    
             this.totalScore += childScore.score;
         }
 
         var fishScore = Math.floor(this.fishEaten / 2);
-        this.fishScore.setText(`Fish eaten: ${this.fishEaten} (${fishScore})`);
+        this.fishScore.setText(`Fish eaten: ${this.fishEaten} (${fishScore} points)`);
         this.totalScore+= fishScore;
 
-        this.woodScore.setText(`Wood collected: ${this.woodCollected} (${this.woodCollected})`);
+        this.woodScore.setText(`Wood collected: ${this.woodCollected} (${this.woodCollected} points)`);
         this.totalScore+= this.woodCollected;
+
+        var difficultiScore = Math.floor(this.totalScore*this.seaScene.gameState.current.scoreMultiplier - this.totalScore);
+        this.difficultiScoreText.setText("Difficulty bonus: " + difficultiScore + " points");
+
+        this.totalScore+=difficultiScore;
 
         this.totalScoreText.setText("Total score: " + this.totalScore) 
     }

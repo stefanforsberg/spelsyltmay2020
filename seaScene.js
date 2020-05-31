@@ -14,8 +14,7 @@ class SeaScene extends Phaser.Scene {
         this.events.on('Endgame', this.endGame, this);
 
         this.isStarted = false;
-
-        this.music = this.sound.add('theme');
+        
         this.seaSound = this.sound.add('sea', {loop: true, volume: 0.5});
 
         this.rainSound = this.sound.add('rain', {loop: true, volume: 0.3});
@@ -27,17 +26,17 @@ class SeaScene extends Phaser.Scene {
         this.gameState = {
             normal: {
                 poisonFishChange: 0.2,
-                woodAmount: 5,
+                woodAmount: 3,
                 childRaftLifeDecrease: 0.02,
                 childLifeDecrease: 0.01,
                 playerRaftLifeDecrease: 0.03,
-                playerLifeDecrease: 0.03,
+                playerLifeDecrease: 0.02,
                 repairRaftAmount: 30,
                 scoreMultiplier: 1
             },
             hard: {
                 poisonFishChange: 0.4,
-                woodAmount: 3,
+                woodAmount: 2,
                 childRaftLifeDecrease: 0.05,
                 childLifeDecrease: 0.03,
                 playerRaftLifeDecrease: 0.05,
@@ -50,9 +49,17 @@ class SeaScene extends Phaser.Scene {
         this.gameState.current = this.gameState.normal;
     }
 
+    setMode(hard) {
+        if(hard) {
+            this.gameState.current = this.gameState.hard;
+        } else {
+            this.gameState.current = this.gameState.normal;
+        }
+    }
+
     restart() {
         this.bg1 = this.add.sprite(400,700,'bg');
-        this.bg2 = this.add.sprite(400,700-1400,'bg');
+        this.bg2 = this.add.sprite(400,700-1500,'bg');
 
         this.tweens.add({
             targets: [ this.bg1, this.bg2 ],
@@ -88,14 +95,15 @@ class SeaScene extends Phaser.Scene {
 
         this.crafting.depth = 1000
 
-        this.music.play();
+        
         this.seaSound.play();
         
         console.log("finished restart");
     }
 
     endGame() {
-        this.music.stop();
+
+
         this.seaSound.stop();
         this.thunderSound.stop();
         this.rainSound.stop();

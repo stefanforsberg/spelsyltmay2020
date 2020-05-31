@@ -14,10 +14,15 @@ class Crafting extends Phaser.GameObjects.Container {
 
         this.woodText = scene.add.text(100, 15, '0').setFontFamily('Arial').setFontSize(48).setColor('#ffffff');
 
+        this.endGameText = scene.add.text(675,15, '💀').setFontFamily('Arial').setFontSize(48).setColor('#ffffff');
+        this.endGameText.setInteractive();
+        this.endGameText.on('pointerdown', () => {this.scene.events.emit("Endgame", {death: true}); }, this);
+
         var woodImage = scene.add.sprite(45, 40, 'wood')
 
         this.add(background);
         this.add(this.woodText);
+        this.add(this.endGameText);
         this.add(woodImage);
 
         scene.add.existing(this);

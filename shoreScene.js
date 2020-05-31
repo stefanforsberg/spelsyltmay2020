@@ -30,24 +30,5 @@ class ShoreScene extends Phaser.Scene {
             onComplete: function () { this.seaScene.events.emit("Endgame") },
             onCompleteScope: this,
         });
-
-        // this.time.delayedCall(20000, this.nightfall, [], this);
-
-        // this.time.delayedCall(0, this.seaScene.addChild, [], this.seaScene);
-
-        // this.time.delayedCall(30000, this.seaScene.addChild, [], this.seaScene);
     }
-
-    // nightfall() {
-    //     this.tweens.add({
-    //         targets: [ this.sky ],
-    //         props: {
-    //             alpha : { value: 0.7, duration: 40000, ease: 'Power.Easein' }
-    //         },
-    //         repeat: 0,
-    //         yoyo: false,
-    //         onComplete: function () { this.seaScene.switchToNight() },
-    //         onCompleteScope: this,
-    //     });
-    // }
 }

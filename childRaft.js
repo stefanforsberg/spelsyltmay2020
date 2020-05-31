@@ -138,7 +138,6 @@ class ChildRaft extends Phaser.GameObjects.Container {
                 }
 
                 if(this.childLife >= 180) {
-                    console.log("dead child")
                     this.isChildAlive = false;
                     this.raft.setTexture('childRaftChildDead')
                 }
